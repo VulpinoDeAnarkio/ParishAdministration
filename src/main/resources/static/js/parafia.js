@@ -20,6 +20,20 @@ document.querySelectorAll("[data-filtr]").forEach((pole) => {
     });
 });
 
+document.querySelectorAll("[data-filtr-wierszy]").forEach((pole) => {
+    const tabela = document.getElementById(pole.dataset.filtrWierszy);
+    if (!tabela) {
+        return;
+    }
+    pole.addEventListener("input", () => {
+        const szukane = pole.value.trim().toLocaleLowerCase("pl");
+        tabela.querySelectorAll("tbody tr").forEach((wiersz) => {
+            const tekst = wiersz.innerText.toLocaleLowerCase("pl");
+            wiersz.hidden = szukane.length > 0 && !tekst.includes(szukane);
+        });
+    });
+});
+
 document.querySelectorAll("[data-zaznacz-wszystkie]").forEach((przycisk) => {
     przycisk.addEventListener("click", () => {
         const grupa = document.getElementById(przycisk.dataset.zaznaczWszystkie);

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Obecności')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Życie parafii</p>
+                <h1>Obecności</h1>
+            </div>
+        </div>
+        <div class="siatka-kart">
+            <section class="karta">
+                <h2>Nabożeństwa</h2>
+                <ul class="lista-prosta">
+                    <li th:each="n : ${nabozenstwa}">
+                        <a th:href="@{/obecnosci/nabozenstwo/{id}(id=${n.id})}"
+                           th:text="${#temporals.format(n.wydarzenie.poczatek, 'dd.MM.yyyy') + ' · ' + n.rodzaj.etykieta}">nabożeństwo</a>
+                    </li>
+                    <li th:if="${#lists.isEmpty(nabozenstwa)}">Brak zaplanowanych nabożeństw.</li>
+                </ul>
+            </section>
+            <section class="karta">
+                <h2>Grupy</h2>
+                <ul class="lista-prosta">
+                    <li th:each="g : ${grupy}">
+                        <a th:href="@{/obecnosci/grupa/{id}(id=${g.id})}" th:text="${g.nazwa}">grupa</a>
+                    </li>
+                    <li th:if="${#lists.isEmpty(grupy)}">Brak grup.</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

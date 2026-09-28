@@ -22,6 +22,7 @@
                 <div><dt>Organizator</dt><dd th:text="${wydarzenie.organizator} ?: '—'">kto</dd></div>
             </dl>
             <p th:if="${wydarzenie.opis != null}" th:text="${wydarzenie.opis}">opis</p>
+            <p><a th:href="@{/obecnosci/wydarzenie/{id}(id=${wydarzenie.id})}">Lista obecności</a></p>
             <form th:if="${mozeKsiegi}" th:action="@{/kalendarz/{id}/usun(id=${wydarzenie.id})}" method="post" data-potwierdz="Usunąć wydarzenie z kalendarza?">
                 <button class="btn niebezpieczny" type="submit">Usuń</button>
             </form>

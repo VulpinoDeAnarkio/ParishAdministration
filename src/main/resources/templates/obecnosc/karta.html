@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Lista obecności')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${rodzaj.etykieta}">rodzaj</p>
+                <h1 th:text="${tytul}">Obecność</h1>
+                <p th:text="${obecnych + ' obecnych'}">liczba</p>
+            </div>
+            <a class="btn drugi" th:href="@{/obecnosci}">Wróć</a>
+        </div>
+        <form class="karta" method="post" th:action="@{/obecnosci/{rodzaj}/{id}(rodzaj=${#strings.toLowerCase(rodzaj)}, id=${celId})}">
+            <div class="pasek-akcji">
+                <input type="search" data-filtr-wierszy="lista-obecnosci" placeholder="Filtruj osoby" aria-label="Filtruj osoby na liście">
+                <button class="btn drugi" type="button" data-zaznacz-wszystkie="lista-obecnosci">Zaznacz wszystkich</button>
+                <button class="btn podstawowy" type="submit" th:if="${mozeEdytowacKartoteke}">Zapisz obecności</button>
+            </div>
+            <table class="tabela" id="lista-obecnosci">
+                <thead><tr><th>Obecny</th><th>Osoba</th><th>Status</th></tr></thead>
+                <tbody>
+                <tr th:each="w : ${wiersze}">
+                    <td>
+                        <input type="hidden" name="osoby" th:value="${w.osoba.id}">
+                        <input type="checkbox" name="obecni" th:value="${w.osoba.id}" th:checked="${w.obecny}" th:disabled="${!mozeEdytowacKartoteke}">
+                    </td>
+                    <td th:text="${w.osoba.imieINazwisko}">osoba</td>
+                    <td th:text="${w.osoba.status.etykieta}">status</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(wiersze)}"><td colspan="3">Brak osób na tej liście. Dodaj członków grupy albo osoby w kartotece.</td></tr>
+                </tbody>
+            </table>
+        </form>
+        <form class="karta formularz" th:if="${rodzaj.name() == 'WYDARZENIE' and mozeEdytowacKartoteke}" method="post" th:action="@{/obecnosci/wydarzenie/{id}/dopisz(id=${celId})}">
+            <h2>Dopisz uczestnika</h2>
+            <div class="siatka-formularza">
+                <label class="pole"><span>Szukaj</span><input type="search" data-filtr="osoba-wydarzenie" placeholder="Filtruj" aria-label="Filtruj osoby"></label>
+                <label class="pole szeroki"><span>Osoba</span>
+                    <select id="osoba-wydarzenie" name="osobaId" required>
+                        <option th:each="o : ${osoby}" th:value="${o.id}" th:text="${o.imieINazwisko}">osoba</option>
+                    </select>
+                </label>
+            </div>
+            <button class="btn drugi" type="submit">Dopisz jako obecnego</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>

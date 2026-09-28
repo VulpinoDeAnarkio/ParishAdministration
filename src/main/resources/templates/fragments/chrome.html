@@ -22,6 +22,7 @@
             <p class="sekcja-menu">Życie parafii</p>
             <a th:href="@{/kalendarz}" th:classappend="${#strings.startsWith(sciezka, '/kalendarz')} ? 'aktywny'">Kalendarz</a>
             <a th:href="@{/nabozenstwa}" th:classappend="${#strings.startsWith(sciezka, '/nabozenstwa')} ? 'aktywny'">Nabożeństwa</a>
+            <a th:href="@{/obecnosci}" th:classappend="${#strings.startsWith(sciezka, '/obecnosci')} ? 'aktywny'">Obecności</a>
             <p class="sekcja-menu">Parafia</p>
             <a th:href="@{/profil}" th:classappend="${#strings.startsWith(sciezka, '/profil')} ? 'aktywny'">Profil parafii</a>
             <a th:if="${jestAdminem}" th:href="@{/uzytkownicy}"

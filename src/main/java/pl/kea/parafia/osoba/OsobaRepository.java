@@ -37,6 +37,8 @@ public interface OsobaRepository extends JpaRepository<Osoba, Long> {
 
     List<Osoba> findAllByOrderByNazwiskoAscImieAsc();
 
+    List<Osoba> findByStatusInOrderByNazwiskoAscImieAsc(List<StatusCzlonkostwa> statusy);
+
     long countByStatus(StatusCzlonkostwa status);
 
     @Query("select o.gospodarstwo.id, count(o) from Osoba o where o.gospodarstwo is not null group by o.gospodarstwo.id")
