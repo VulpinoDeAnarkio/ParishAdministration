@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nowa sprawa')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony"><h1>Nowa sprawa duszpasterska</h1></div>
+        <form class="karta formularz" th:object="${formularz}" th:action="@{/duszpasterstwo}" method="post">
+            <div class="siatka-formularza">
+                <label class="pole"><span>Filtr osób</span><input type="search" data-filtr="osoba-sprawa" placeholder="Filtruj" aria-label="Filtruj osoby"></label>
+                <label class="pole szeroki"><span>Osoba</span>
+                    <select id="osoba-sprawa" th:field="*{osobaId}" required>
+                        <option value="">Wybierz</option>
+                        <option th:each="o : ${osoby}" th:value="${o.id}" th:text="${o.imieINazwisko}">osoba</option>
+                    </select>
+                </label>
+                <label class="pole szeroki"><span>Temat</span><input th:field="*{temat}" required></label>
+                <label class="pole"><span>Status</span>
+                    <select th:field="*{status}">
+                        <option th:each="s : ${statusy}" th:value="${s}" th:text="${s.etykieta}">status</option>
+                    </select>
+                </label>
+                <label class="pole szeroki"><span>Notatka</span><textarea th:field="*{opis}" rows="5"></textarea></label>
+            </div>
+            <div class="pasek-akcji"><button class="btn podstawowy" type="submit">Zapisz</button><a class="btn drugi" th:href="@{/duszpasterstwo}">Anuluj</a></div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

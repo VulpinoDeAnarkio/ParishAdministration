@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${sprawa.temat})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${sprawa.status.etykieta}">status</p>
+                <h1 th:text="${sprawa.temat}">Sprawa</h1>
+                <p><a th:href="@{/osoby/{id}(id=${sprawa.osoba.id})}" th:text="${sprawa.osoba.imieINazwisko}">osoba</a></p>
+            </div>
+        </div>
+        <section class="karta"><p th:text="${sprawa.opis} ?: 'Bez notatki.'">opis</p></section>
+        <section class="karta">
+            <h2>Wizyty</h2>
+            <ul class="lista-prosta">
+                <li th:each="w : ${wizyty}" th:text="${#temporals.format(w.dataWizyty, 'dd.MM.yyyy') + ' · ' + (w.notatka ?: 'bez notatki')}">wizyta</li>
+                <li th:if="${#lists.isEmpty(wizyty)}">Brak wizyt.</li>
+            </ul>
+        </section>
+        <form class="karta formularz" th:object="${wizyta}" th:action="@{/duszpasterstwo/wizyty}" method="post" th:if="${sprawa.status.name() != 'ZAMKNIETA'}">
+            <h2>Nowa wizyta</h2>
+            <input type="hidden" th:field="*{sprawaId}">
+            <input type="hidden" th:field="*{osobaId}">
+            <div class="siatka-formularza">
+                <label class="pole"><span>Data</span><input type="date" th:field="*{dataWizyty}" required></label>
+                <label class="pole"><span>Miejsce</span><input th:field="*{miejsce}"></label>
+                <label class="pole"><span>Następny kontakt</span><input type="date" th:field="*{nastepnyKontakt}"></label>
+                <label class="pole szeroki"><span>Notatka</span><textarea th:field="*{notatka}" rows="4"></textarea></label>
+            </div>
+            <button class="btn podstawowy" type="submit">Zapisz wizytę</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>

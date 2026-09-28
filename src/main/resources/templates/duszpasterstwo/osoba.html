@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Sprawy osoby')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Duszpasterstwo</p>
+                <h1 th:text="${osoba.imieINazwisko}">Osoba</h1>
+            </div>
+            <a class="btn podstawowy" th:href="@{/duszpasterstwo/nowa}">Nowa sprawa</a>
+        </div>
+        <section class="karta">
+            <ul class="lista-prosta">
+                <li th:each="s : ${sprawy}"><a th:href="@{/duszpasterstwo/{id}(id=${s.id})}" th:text="${s.temat + ' · ' + s.status.etykieta}">sprawa</a></li>
+                <li th:if="${#lists.isEmpty(sprawy)}">Brak spraw tej osoby.</li>
+            </ul>
+        </section>
+    </main>
+</div>
+</body>
+</html>

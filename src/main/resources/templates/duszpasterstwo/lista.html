@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Duszpasterstwo')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Poufne</p>
+                <h1>Duszpasterstwo</h1>
+                <p>Sprawy i wizyty widzą tylko proboszcz, duszpasterz i administrator.</p>
+            </div>
+            <a class="btn podstawowy" th:href="@{/duszpasterstwo/nowa}">Nowa sprawa</a>
+        </div>
+        <section class="karta">
+            <table class="tabela">
+                <thead><tr><th>Temat</th><th>Osoba</th><th>Status</th></tr></thead>
+                <tbody>
+                <tr th:each="s : ${sprawy}">
+                    <td><a th:href="@{/duszpasterstwo/{id}(id=${s.id})}" th:text="${s.temat}">temat</a></td>
+                    <td th:text="${s.osoba.imieINazwisko}">osoba</td>
+                    <td th:text="${s.status.etykieta}">status</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(sprawy)}"><td colspan="3">Nie ma otwartych spraw.</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+</body>
+</html>

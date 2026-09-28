@@ -11,7 +11,10 @@
                 <h1 th:text="${osoba.imieINazwisko}">Osoba</h1>
                 <span class="odznaka" th:classappend="${osoba.status.name()}" th:text="${osoba.status.etykieta}">status</span>
             </div>
-            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/osoby/{id}/edycja(id=${osoba.id})}">Edytuj</a>
+            <div class="wiersz-akcji">
+                <a th:if="${mozeDuszpasterstwo}" class="btn drugi" th:href="@{/duszpasterstwo/osoba/{id}(id=${osoba.id})}">Duszpasterstwo</a>
+                <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/osoby/{id}/edycja(id=${osoba.id})}">Edytuj</a>
+            </div>
         </div>
         <div class="dwie-kolumny">
             <section class="karta">

@@ -23,8 +23,9 @@
             <a th:href="@{/kalendarz}" th:classappend="${#strings.startsWith(sciezka, '/kalendarz')} ? 'aktywny'">Kalendarz</a>
             <a th:href="@{/nabozenstwa}" th:classappend="${#strings.startsWith(sciezka, '/nabozenstwa')} ? 'aktywny'">Nabożeństwa</a>
             <a th:href="@{/obecnosci}" th:classappend="${#strings.startsWith(sciezka, '/obecnosci')} ? 'aktywny'">Obecności</a>
-            <p class="sekcja-menu" th:if="${mozeFinanse}">Kancelaria</p>
+            <p class="sekcja-menu" th:if="${mozeFinanse or mozeDuszpasterstwo}">Kancelaria</p>
             <a th:if="${mozeFinanse}" th:href="@{/finanse}" th:classappend="${#strings.startsWith(sciezka, '/finanse')} ? 'aktywny'">Finanse</a>
+            <a th:if="${mozeDuszpasterstwo}" th:href="@{/duszpasterstwo}" th:classappend="${#strings.startsWith(sciezka, '/duszpasterstwo')} ? 'aktywny'">Duszpasterstwo</a>
             <p class="sekcja-menu">Parafia</p>
             <a th:href="@{/profil}" th:classappend="${#strings.startsWith(sciezka, '/profil')} ? 'aktywny'">Profil parafii</a>
             <a th:if="${jestAdminem}" th:href="@{/uzytkownicy}"
