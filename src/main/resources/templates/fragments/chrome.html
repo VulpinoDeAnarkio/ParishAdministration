@@ -18,6 +18,7 @@
             <a th:href="@{/osoby}" th:classappend="${#strings.startsWith(sciezka, '/osoby')} ? 'aktywny'">Kartoteka</a>
             <a th:href="@{/gospodarstwa}" th:classappend="${#strings.startsWith(sciezka, '/gospodarstwa')} ? 'aktywny'">Gospodarstwa</a>
             <a th:href="@{/ksiegi}" th:classappend="${#strings.startsWith(sciezka, '/ksiegi')} ? 'aktywny'">Księgi</a>
+            <a th:href="@{/grupy}" th:classappend="${#strings.startsWith(sciezka, '/grupy')} ? 'aktywny'">Grupy</a>
             <p class="sekcja-menu">Parafia</p>
             <a th:href="@{/profil}" th:classappend="${#strings.startsWith(sciezka, '/profil')} ? 'aktywny'">Profil parafii</a>
             <a th:if="${jestAdminem}" th:href="@{/uzytkownicy}"

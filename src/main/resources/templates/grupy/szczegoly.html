@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${grupa.nazwa})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${grupa.rodzaj.etykieta}">rodzaj</p>
+                <h1 th:text="${grupa.nazwa}">Grupa</h1>
+                <p th:text="${grupa.termin}">termin</p>
+            </div>
+            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/grupy/{id}/edycja(id=${grupa.id})}">Edytuj</a>
+        </div>
+        <div class="dwie-kolumny">
+            <section class="karta">
+                <h2>Osoby</h2>
+                <div class="tabela-opakowanie">
+                    <table>
+                        <thead><tr><th>Osoba</th><th>Funkcja</th><th>Od</th><th>Status</th><th></th></tr></thead>
+                        <tbody>
+                        <tr th:each="czlonek : ${czlonkowie}">
+                            <td><a th:href="@{/osoby/{id}(id=${czlonek.osoba.id})}" th:text="${czlonek.osoba.imieINazwisko}">osoba</a></td>
+                            <td th:text="${czlonek.funkcja}">funkcja</td>
+                            <td th:text="${czlonek.odDnia != null ? #temporals.format(czlonek.odDnia, 'dd.MM.yyyy') : '—'}">od</td>
+                            <td th:text="${czlonek.aktywny} ? 'W grupie' : 'Zakończony'">status</td>
+                            <td>
+                                <form th:if="${czlonek.aktywny and mozeEdytowacKartoteke}" method="post" th:action="@{/grupy/czlonkowie/{id}/zakoncz(id=${czlonek.id})}">
+                                    <input type="hidden" name="grupaId" th:value="${grupa.id}">
+                                    <button class="btn cichy" type="submit">Zakończ</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <aside class="karta" th:if="${mozeEdytowacKartoteke}">
+                <h2>Dodaj osobę</h2>
+                <form th:action="@{/grupy/{id}/czlonkowie(id=${grupa.id})}" th:object="${czlonek}" method="post">
+                    <label class="pole"><span>Osoba</span>
+                        <input type="search" data-filtr="osoba-grupa" placeholder="Filtruj" aria-label="Filtruj osoby">
+                        <select id="osoba-grupa" th:field="*{osobaId}">
+                            <option value="">Wybierz</option>
+                            <option th:each="o : ${osoby}" th:value="${o.id}" th:text="${o.nazwisko + ' ' + o.imie}">osoba</option>
+                        </select>
+                    </label>
+                    <label class="pole"><span>Funkcja</span><input th:field="*{funkcja}"></label>
+                    <label class="pole"><span>Od dnia</span><input type="date" th:field="*{odDnia}"></label>
+                    <button class="btn podstawowy" type="submit">Dodaj</button>
+                </form>
+                <p th:if="${grupa.opis != null}" th:text="${grupa.opis}">opis</p>
+            </aside>
+        </div>
+    </main>
+</div>
+</body>
+</html>

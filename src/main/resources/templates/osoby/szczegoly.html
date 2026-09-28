@@ -53,6 +53,14 @@
                         </li>
                     </ul>
                 </div>
+                <h3>Grupy</h3>
+                <ul>
+                    <li th:each="udzial : ${grupyOsoby}">
+                        <a th:href="@{/grupy/{id}(id=${udzial.grupa.id})}" th:text="${udzial.grupa.nazwa}">grupa</a>
+                        <span class="uwaga" th:unless="${udzial.aktywny}">zakończony</span>
+                    </li>
+                </ul>
+                <p th:if="${#lists.isEmpty(grupyOsoby)}" class="uwaga">Poza grupami.</p>
             </aside>
         </div>
         <section class="karta">

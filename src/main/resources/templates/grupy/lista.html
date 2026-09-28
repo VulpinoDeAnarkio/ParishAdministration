@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Grupy')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1>Grupy i służby</h1>
+                <p>Chór, szkółka, młodzież, diakonia, rada parafialna i inne kręgi.</p>
+            </div>
+            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/grupy/nowa}">Nowa grupa</a>
+        </div>
+        <section class="siatka-kart">
+            <article class="karta" th:each="grupa : ${grupy}">
+                <span class="odznaka" th:text="${grupa.rodzaj.etykieta}">rodzaj</span>
+                <h2><a th:href="@{/grupy/{id}(id=${grupa.id})}" th:text="${grupa.nazwa}">nazwa</a></h2>
+                <p th:text="${grupa.termin}">termin</p>
+                <p class="uwaga" th:text="${grupa.aktywna} ? 'Aktywna' : 'Zawieszona'">status</p>
+            </article>
+        </section>
+        <section class="karta pusta" th:if="${#lists.isEmpty(grupy)}">
+            <h2>Nie ma jeszcze grup</h2>
+            <p>Załóż pierwszą służbę parafii.</p>
+        </section>
+    </main>
+</div>
+</body>
+</html>
