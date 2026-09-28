@@ -8,4 +8,6 @@ public interface UzytkownikRepository extends JpaRepository<Uzytkownik, Long> {
     Optional<Uzytkownik> findByEmailIgnoreCase(String email);
 
     boolean existsByEmailIgnoreCase(String email);
+
+    long countByRolaAndAktywnyIsTrue(Rola rola);
 }

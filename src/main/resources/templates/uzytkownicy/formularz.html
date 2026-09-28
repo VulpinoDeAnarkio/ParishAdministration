@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Konto')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1 th:text="${edycja} ? 'Edycja konta' : 'Nowe konto'">Konto</h1>
+                <p>Hasło przy edycji zostaw puste, jeśli ma pozostać bez zmian.</p>
+            </div>
+        </div>
+        <form class="karta formularz" th:object="${formularz}" method="post"
+              th:action="${edycja} ? @{/uzytkownicy/{id}(id=${identyfikator})} : @{/uzytkownicy}">
+            <div class="siatka-formularza">
+                <label class="pole">
+                    <span>Imię</span>
+                    <input th:field="*{imie}" required>
+                    <small th:errors="*{imie}"></small>
+                </label>
+                <label class="pole">
+                    <span>Nazwisko</span>
+                    <input th:field="*{nazwisko}" required>
+                    <small th:errors="*{nazwisko}"></small>
+                </label>
+                <label class="pole">
+                    <span>E-mail</span>
+                    <input type="email" th:field="*{email}" required>
+                    <small th:errors="*{email}"></small>
+                </label>
+                <label class="pole">
+                    <span>Rola</span>
+                    <select th:field="*{rola}">
+                        <option th:each="rola : ${role}" th:value="${rola}" th:text="${rola.etykieta}">rola</option>
+                    </select>
+                </label>
+                <label class="pole">
+                    <span>Hasło</span>
+                    <input type="password" th:field="*{haslo}" autocomplete="new-password" th:required="${!edycja}">
+                    <small th:errors="*{haslo}"></small>
+                </label>
+                <label class="pole">
+                    <span>Konto aktywne</span>
+                    <input type="checkbox" th:field="*{aktywny}">
+                </label>
+            </div>
+            <div class="pasek-akcji">
+                <button class="btn podstawowy" type="submit">Zapisz</button>
+                <a class="btn drugi" th:href="@{/uzytkownicy}">Anuluj</a>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

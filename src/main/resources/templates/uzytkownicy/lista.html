@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Użytkownicy')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1>Pracownicy kancelarii</h1>
+                <p>Konta i role: kto widzi finanse, księgi i sprawy duszpasterskie.</p>
+            </div>
+            <a class="btn podstawowy" th:href="@{/uzytkownicy/nowy}">Nowe konto</a>
+        </div>
+        <section class="karta">
+            <div class="tabela-opakowanie">
+                <table>
+                    <caption class="kicker">Konta</caption>
+                    <thead>
+                    <tr>
+                        <th>Osoba</th>
+                        <th>E-mail</th>
+                        <th>Rola</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="konto : ${strona.content}">
+                        <td th:text="${konto.imieINazwisko}">Imię</td>
+                        <td th:text="${konto.email}">email</td>
+                        <td><span class="odznaka" th:text="${konto.rola.etykieta}">rola</span></td>
+                        <td th:text="${konto.aktywny} ? 'Aktywne' : 'Wyłączone'">status</td>
+                        <td><a th:href="@{/uzytkownicy/{id}/edycja(id=${konto.id})}">Edytuj</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="stronicowanie" th:if="${strona.totalPages > 1}">
+                <a th:if="${strona.hasPrevious()}" th:href="@{/uzytkownicy(page=${strona.number - 1})}">Poprzednia</a>
+                <span th:text="${strona.number + 1} + ' / ' + ${strona.totalPages}">1 / 1</span>
+                <a th:if="${strona.hasNext()}" th:href="@{/uzytkownicy(page=${strona.number + 1})}">Następna</a>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
