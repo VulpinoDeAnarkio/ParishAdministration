@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Gospodarstwo')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1 th:text="${edycja} ? 'Edycja gospodarstwa' : 'Nowe gospodarstwo'">Dom</h1>
+            </div>
+        </div>
+        <form class="karta formularz" th:object="${formularz}" method="post"
+              th:action="${edycja} ? @{/gospodarstwa/{id}(id=${identyfikator})} : @{/gospodarstwa}">
+            <div class="siatka-formularza">
+                <label class="pole szeroki"><span>Nazwa</span><input th:field="*{nazwa}" required><small th:errors="*{nazwa}"></small></label>
+                <label class="pole szeroki"><span>Ulica</span><input th:field="*{ulica}"></label>
+                <label class="pole waski"><span>Kod</span><input th:field="*{kodPocztowy}"></label>
+                <label class="pole"><span>Miejscowość</span><input th:field="*{miejscowosc}"></label>
+                <label class="pole"><span>Telefon</span><input th:field="*{telefon}"></label>
+                <label class="pole szeroki"><span>Uwagi</span><textarea th:field="*{uwagi}" rows="3"></textarea></label>
+            </div>
+            <div class="pasek-akcji">
+                <button class="btn podstawowy" type="submit">Zapisz</button>
+                <a class="btn drugi" th:href="@{/gospodarstwa}">Anuluj</a>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

@@ -108,7 +108,8 @@ img { max-width: 100%; }
     z-index: 2;
     backdrop-filter: blur(10px);
 }
-.kontekst { flex: 1; color: var(--przygaszony); font-size: 0.95rem; }
+.szukaj-globalnie { flex: 1; max-width: 360px; }
+.szukaj-globalnie input { border-radius: 999px; background: white; }
 .konto { display: flex; align-items: center; gap: 0.8rem; }
 .konto span { display: flex; flex-direction: column; line-height: 1.2; text-align: right; }
 .konto small { color: var(--przygaszony); }

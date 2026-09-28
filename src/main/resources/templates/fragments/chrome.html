@@ -13,19 +13,22 @@
             </div>
         </div>
         <nav class="menu" aria-label="Moduły kancelarii">
-            <a th:href="@{/}" th:classappend="${#strings.equals(#request.requestURI, '/')} ? 'aktywny'">Pulpit</a>
+            <a th:href="@{/}" th:classappend="${sciezka == '/'} ? 'aktywny'">Pulpit</a>
+            <p class="sekcja-menu">Ludzie</p>
+            <a th:href="@{/osoby}" th:classappend="${#strings.startsWith(sciezka, '/osoby')} ? 'aktywny'">Kartoteka</a>
+            <a th:href="@{/gospodarstwa}" th:classappend="${#strings.startsWith(sciezka, '/gospodarstwa')} ? 'aktywny'">Gospodarstwa</a>
             <p class="sekcja-menu">Parafia</p>
-            <a th:href="@{/profil}" th:classappend="${#strings.startsWith(#request.requestURI, '/profil')} ? 'aktywny'">Profil parafii</a>
+            <a th:href="@{/profil}" th:classappend="${#strings.startsWith(sciezka, '/profil')} ? 'aktywny'">Profil parafii</a>
             <a th:if="${jestAdminem}" th:href="@{/uzytkownicy}"
-               th:classappend="${#strings.startsWith(#request.requestURI, '/uzytkownicy')} ? 'aktywny'">Użytkownicy</a>
+               th:classappend="${#strings.startsWith(sciezka, '/uzytkownicy')} ? 'aktywny'">Użytkownicy</a>
         </nav>
     </aside>
     <div class="obszar">
         <header class="gora">
             <label class="przycisk-menu" for="menu-przelacznik">Menu</label>
-            <div class="kontekst">
-                <span th:text="${profil.nazwa}">Parafia</span>
-            </div>
+            <form class="szukaj-globalnie" th:action="@{/osoby}" method="get">
+                <input type="search" name="q" placeholder="Szukaj osoby" aria-label="Szukaj osoby w kartotece">
+            </form>
             <div class="konto" th:if="${konto != null}">
                 <span>
                     <strong th:text="${konto.imieINazwisko}">Osoba</strong>

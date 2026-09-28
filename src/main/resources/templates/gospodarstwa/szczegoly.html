@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${gospodarstwo.nazwa})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Gospodarstwo</p>
+                <h1 th:text="${gospodarstwo.nazwa}">Dom</h1>
+                <p th:text="${gospodarstwo.adresJednaLinia}">adres</p>
+            </div>
+            <div class="wiersz-akcji" th:if="${mozeEdytowacKartoteke}">
+                <a class="btn podstawowy" th:href="@{/gospodarstwa/{id}/edycja(id=${gospodarstwo.id})}">Edytuj</a>
+            </div>
+        </div>
+        <div class="dwie-kolumny">
+            <section class="karta">
+                <h2>Domownicy</h2>
+                <p th:if="${#lists.isEmpty(domownicy)}">Nikt nie jest jeszcze przypisany.</p>
+                <ul>
+                    <li th:each="osoba : ${domownicy}">
+                        <a th:href="@{/osoby/{id}(id=${osoba.id})}" th:text="${osoba.imieINazwisko}">osoba</a>
+                        <span class="odznaka" th:if="${osoba.rolaWRodzinie != null}" th:text="${osoba.rolaWRodzinie.etykieta}">rola</span>
+                    </li>
+                </ul>
+            </section>
+            <aside class="karta">
+                <h2>Kontakt domu</h2>
+                <p th:text="${gospodarstwo.telefon} ?: 'Brak telefonu'">telefon</p>
+                <p th:if="${gospodarstwo.uwagi != null}" th:text="${gospodarstwo.uwagi}">uwagi</p>
+                <form th:if="${mozeEdytowacKartoteke}" th:action="@{/gospodarstwa/{id}/usun(id=${gospodarstwo.id})}" method="post" data-potwierdz="Usunąć puste gospodarstwo?">
+                    <button class="btn niebezpieczny" type="submit">Usuń gospodarstwo</button>
+                </form>
+            </aside>
+        </div>
+    </main>
+</div>
+</body>
+</html>

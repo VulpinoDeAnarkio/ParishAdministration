@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${osoba.imieINazwisko})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Kartoteka</p>
+                <h1 th:text="${osoba.imieINazwisko}">Osoba</h1>
+                <span class="odznaka" th:classappend="${osoba.status.name()}" th:text="${osoba.status.etykieta}">status</span>
+            </div>
+            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/osoby/{id}/edycja(id=${osoba.id})}">Edytuj</a>
+        </div>
+        <div class="dwie-kolumny">
+            <section class="karta">
+                <h2>Dane</h2>
+                <dl class="dane">
+                    <div><dt>Drugie imię</dt><dd th:text="${osoba.drugieImie} ?: '—'">—</dd></div>
+                    <div><dt>Nazwisko rodowe</dt><dd th:text="${osoba.nazwiskoRodowe} ?: '—'">—</dd></div>
+                    <div><dt>Płeć</dt><dd th:text="${osoba.plec.etykieta}">płeć</dd></div>
+                    <div>
+                        <dt>Urodzenie</dt>
+                        <dd>
+                            <span th:if="${osoba.dataUrodzenia != null}" th:text="${#temporals.format(osoba.dataUrodzenia, 'dd.MM.yyyy')}"></span>
+                            <span th:if="${osoba.wiek != null}" th:text="${' (' + osoba.wiek + ' lat)'}"></span>
+                            <span th:if="${osoba.miejsceUrodzenia != null}" th:text="${', ' + osoba.miejsceUrodzenia}"></span>
+                            <span th:if="${osoba.dataUrodzenia == null}">—</span>
+                        </dd>
+                    </div>
+                    <div><dt>Telefon</dt><dd th:text="${osoba.telefon} ?: '—'">—</dd></div>
+                    <div><dt>E-mail</dt><dd th:text="${osoba.email} ?: '—'">—</dd></div>
+                    <div><dt>Adres</dt><dd th:text="${osoba.ulica == null and osoba.miejscowosc == null ? '—' : ((osoba.ulica != null ? osoba.ulica + ', ' : '') + (osoba.kodPocztowy != null ? osoba.kodPocztowy + ' ' : '') + (osoba.miejscowosc != null ? osoba.miejscowosc : ''))}">adres</dd></div>
+                    <div><dt>Przyjęcie</dt><dd th:text="${osoba.dataPrzyjecia != null ? #temporals.format(osoba.dataPrzyjecia, 'dd.MM.yyyy') : '—'}">—</dd></div>
+                    <div><dt>Wystąpienie</dt><dd th:text="${osoba.dataWystapienia != null ? #temporals.format(osoba.dataWystapienia, 'dd.MM.yyyy') : '—'}">—</dd></div>
+                    <div><dt>Kontakt</dt><dd th:text="${osoba.zgodaNaKontakt} ? 'Zgoda na wiadomości' : 'Bez zgody na wiadomości'">zgoda</dd></div>
+                    <div><dt>Wieczerza Pańska</dt><dd th:text="${osoba.uczestniczyWWieczerzy} ? 'Uczestniczy' : 'Brak odnotowanego udziału'">wieczerza</dd></div>
+                </dl>
+                <p th:if="${osoba.uwagi != null}" th:text="${osoba.uwagi}">uwagi</p>
+            </section>
+            <aside class="karta">
+                <h2>Gospodarstwo</h2>
+                <div th:if="${osoba.gospodarstwo == null}" class="pusta">
+                    <p>Osoba nie jest przypisana do domu.</p>
+                </div>
+                <div th:if="${osoba.gospodarstwo != null}">
+                    <p><a th:href="@{/gospodarstwa/{id}(id=${osoba.gospodarstwo.id})}" th:text="${osoba.gospodarstwo.nazwa}">dom</a></p>
+                    <p class="uwaga" th:if="${osoba.rolaWRodzinie != null}" th:text="${osoba.rolaWRodzinie.etykieta}">rola</p>
+                    <ul>
+                        <li th:each="domownik : ${domownicy}">
+                            <a th:href="@{/osoby/{id}(id=${domownik.id})}" th:text="${domownik.imieINazwisko}">osoba</a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+</div>
+</body>
+</html>

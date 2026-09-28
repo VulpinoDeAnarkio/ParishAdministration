@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Parafianie')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1>Kartoteka</h1>
+                <p>Członkowie, dzieci ochrzczone, katechumeni, sympatycy i osoby przeniesione.</p>
+            </div>
+            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/osoby/nowa}">Dodaj osobę</a>
+        </div>
+        <form class="karta filtry" method="get" th:action="@{/osoby}">
+            <label class="pole">
+                <span>Szukaj</span>
+                <input type="search" name="q" th:value="${q}" placeholder="Imię, nazwisko albo e-mail">
+            </label>
+            <label class="pole">
+                <span>Status</span>
+                <select name="status">
+                    <option value="">Wszyscy</option>
+                    <option th:each="s : ${statusy}" th:value="${s}" th:text="${s.etykieta}" th:selected="${s == status}"></option>
+                </select>
+            </label>
+            <div class="filtry-akcje">
+                <button class="btn podstawowy" type="submit">Filtruj</button>
+                <a class="btn drugi" th:href="@{/osoby}">Wyczyść</a>
+            </div>
+        </form>
+        <p class="uwaga" th:text="'Członków parafii: ' + ${liczbaCzlonkow}">liczba</p>
+        <section class="karta" th:if="${#lists.isEmpty(strona.content)}">
+            <div class="pusta">
+                <h2>Nikt nie pasuje do filtra</h2>
+                <p>Zmień wyszukiwanie albo dodaj pierwszą osobę.</p>
+            </div>
+        </section>
+        <section class="karta" th:unless="${#lists.isEmpty(strona.content)}">
+            <div class="tabela-opakowanie">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Osoba</th>
+                        <th>Status</th>
+                        <th>Kontakt</th>
+                        <th>Gospodarstwo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="osoba : ${strona.content}">
+                        <td>
+                            <a th:href="@{/osoby/{id}(id=${osoba.id})}" th:text="${osoba.imieINazwisko}">Osoba</a>
+                            <div class="uwaga" th:if="${osoba.dataUrodzenia != null}"
+                                 th:text="${#temporals.format(osoba.dataUrodzenia, 'dd.MM.yyyy')}"></div>
+                        </td>
+                        <td><span class="odznaka" th:classappend="${osoba.status.name()}" th:text="${osoba.status.etykieta}">status</span></td>
+                        <td>
+                            <div th:text="${osoba.telefon}">telefon</div>
+                            <div th:text="${osoba.email}">email</div>
+                        </td>
+                        <td>
+                            <a th:if="${osoba.gospodarstwo != null}"
+                               th:href="@{/gospodarstwa/{id}(id=${osoba.gospodarstwo.id})}"
+                               th:text="${osoba.gospodarstwo.nazwa}">dom</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="stronicowanie" th:if="${strona.totalPages > 1}">
+                <a th:if="${strona.hasPrevious()}" th:href="@{/osoby(page=${strona.number - 1}, q=${q}, status=${status})}">Poprzednia</a>
+                <span th:text="${strona.number + 1} + ' / ' + ${strona.totalPages}">1</span>
+                <a th:if="${strona.hasNext()}" th:href="@{/osoby(page=${strona.number + 1}, q=${q}, status=${status})}">Następna</a>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

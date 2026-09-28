@@ -1,5 +1,6 @@
 package pl.kea.parafia.konfiguracja;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +23,11 @@ public class ModelGlobalny {
         this.profile = profile;
         this.biezacy = biezacy;
         this.trybDemo = trybDemo;
+    }
+
+    @ModelAttribute("sciezka")
+    public String sciezka(HttpServletRequest zadanie) {
+        return zadanie.getRequestURI();
     }
 
     @ModelAttribute("trybDemo")

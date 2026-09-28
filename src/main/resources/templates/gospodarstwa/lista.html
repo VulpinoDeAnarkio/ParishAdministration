@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Gospodarstwa')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1>Gospodarstwa</h1>
+                <p>Domy i rodziny, do których przypisane są osoby z kartoteki.</p>
+            </div>
+            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/gospodarstwa/nowe}">Nowe gospodarstwo</a>
+        </div>
+        <section class="karta" th:if="${#lists.isEmpty(gospodarstwa)}">
+            <div class="pusta">
+                <h2>Brak gospodarstw</h2>
+                <p>Załóż pierwsze, a potem dopisz domowników.</p>
+            </div>
+        </section>
+        <section class="karta" th:unless="${#lists.isEmpty(gospodarstwa)}">
+            <div class="tabela-opakowanie">
+                <table>
+                    <thead>
+                    <tr><th>Nazwa</th><th>Adres</th><th>Telefon</th><th>Osoby</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="dom : ${gospodarstwa}">
+                        <td><a th:href="@{/gospodarstwa/{id}(id=${dom.id})}" th:text="${dom.nazwa}">dom</a></td>
+                        <td th:text="${dom.adresJednaLinia}">adres</td>
+                        <td th:text="${dom.telefon}">telefon</td>
+                        <td th:text="${liczby.get(dom.id)} ?: 0">0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
