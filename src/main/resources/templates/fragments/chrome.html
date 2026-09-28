@@ -26,6 +26,7 @@
             <a th:href="@{/sluzba}" th:classappend="${#strings.startsWith(sciezka, '/sluzba')} ? 'aktywny'">Służba</a>
             <a th:href="@{/postep}" th:classappend="${#strings.startsWith(sciezka, '/postep')} ? 'aktywny'">Postęp</a>
             <a th:href="@{/ogloszenia}" th:classappend="${#strings.startsWith(sciezka, '/ogloszenia')} ? 'aktywny'">Ogłoszenia</a>
+            <a th:href="@{/raporty}" th:classappend="${#strings.startsWith(sciezka, '/raporty')} ? 'aktywny'">Raporty</a>
             <p class="sekcja-menu" th:if="${mozeFinanse or mozeDuszpasterstwo}">Kancelaria</p>
             <a th:if="${mozeFinanse}" th:href="@{/finanse}" th:classappend="${#strings.startsWith(sciezka, '/finanse')} ? 'aktywny'">Finanse</a>
             <a th:if="${mozeDuszpasterstwo}" th:href="@{/duszpasterstwo}" th:classappend="${#strings.startsWith(sciezka, '/duszpasterstwo')} ? 'aktywny'">Duszpasterstwo</a>

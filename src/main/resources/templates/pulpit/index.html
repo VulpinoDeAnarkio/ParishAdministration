@@ -14,36 +14,50 @@
         </div>
         <section class="siatka-statystyk">
             <article class="karta stat">
-                <span>Nabożeństwo</span>
-                <strong th:text="${profil.poraNabozenstwa} ?: '—'">godzina</strong>
+                <span>Członkowie</span>
+                <strong th:text="${czlonkowie}">0</strong>
             </article>
             <article class="karta stat">
-                <span>Proboszcz</span>
-                <strong th:text="${profil.proboszcz} ?: '—'">imię</strong>
+                <span>Chrzty w księgach</span>
+                <strong th:text="${chrzty}">0</strong>
             </article>
             <article class="karta stat">
-                <span>Kurator</span>
-                <strong th:text="${profil.kurator} ?: '—'">imię</strong>
+                <span>Konfirmacje</span>
+                <strong th:text="${konfirmacje}">0</strong>
             </article>
             <article class="karta stat">
-                <span>Kancelaria</span>
-                <strong th:text="${profil.telefon} ?: '—'">telefon</strong>
+                <span>Otwarte zadania</span>
+                <strong th:text="${zadania}">0</strong>
             </article>
         </section>
-        <section class="karta">
-            <h2>Kancelaria jest gotowa do pracy</h2>
-            <p>Zalogowano do pulpitu parafii. Kolejne moduły — kartoteka, księgi, kalendarz, finanse i postęp — dokładają się do tego samego układu.</p>
-            <dl class="dane">
-                <div>
-                    <dt>Adres</dt>
-                    <dd th:text="${profil.adresJednaLinia} ?: '—'">adres</dd>
-                </div>
-                <div>
-                    <dt>E-mail</dt>
-                    <dd th:text="${profil.email} ?: '—'">email</dd>
-                </div>
-            </dl>
-            <a class="btn podstawowy" th:href="@{/profil}">Profil parafii</a>
+        <div class="dwie-kolumny">
+            <section class="karta">
+                <h2>Najbliższe wydarzenia</h2>
+                <ul class="lista-prosta">
+                    <li th:each="w : ${wydarzenia}">
+                        <a th:href="@{/kalendarz/{id}(id=${w.id})}"
+                           th:text="${#temporals.format(w.poczatek, 'dd.MM HH:mm') + ' · ' + w.tytul}">wydarzenie</a>
+                    </li>
+                    <li th:if="${#lists.isEmpty(wydarzenia)}">Kalendarz jest pusty.</li>
+                </ul>
+            </section>
+            <section class="karta">
+                <h2>Ogłoszenia</h2>
+                <ul class="lista-prosta">
+                    <li th:each="o : ${ogloszenia}" th:text="${o.tytul}">ogłoszenie</li>
+                    <li th:if="${#lists.isEmpty(ogloszenia)}">Brak aktualnych ogłoszeń.</li>
+                </ul>
+                <a th:href="@{/ogloszenia-publiczne}">Tablica publiczna</a>
+            </section>
+        </div>
+        <section class="karta" th:each="w : ${cele}">
+            <div class="naglowek-strony">
+                <h2 th:text="${w.cel.nazwa}">Cel</h2>
+                <strong th:text="${w.procent + '%'}">0%</strong>
+            </div>
+            <div class="pasek-postepu" role="progressbar" th:attr="aria-valuenow=${w.procent}" aria-valuemin="0" aria-valuemax="100">
+                <span th:style="'width:' + ${w.procent} + '%'"></span>
+            </div>
         </section>
     </main>
 </div>

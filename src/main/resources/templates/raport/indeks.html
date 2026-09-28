@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Raporty')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Eksport</p>
+                <h1>Raporty</h1>
+                <p>Pliki CSV otwierają się w arkuszu. Separator kolumn to średnik.</p>
+            </div>
+        </div>
+        <div class="siatka-kart">
+            <article class="karta">
+                <h2>Kartoteka</h2>
+                <p>Imię, nazwisko, status i kontakt.</p>
+                <a class="btn podstawowy" th:href="@{/raporty/osoby}">Pobierz CSV</a>
+            </article>
+            <article class="karta" th:if="${mozeFinanse}">
+                <h2>Finanse</h2>
+                <p>Operacje wszystkich funduszy.</p>
+                <a class="btn podstawowy" th:href="@{/raporty/finanse}">Pobierz CSV</a>
+            </article>
+        </div>
+    </main>
+</div>
+</body>
+</html>
