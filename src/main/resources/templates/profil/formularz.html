@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Profil parafii')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1>Profil parafii</h1>
+                <p>Dane widoczne na pulpicie i w nagłówku kancelarii.</p>
+            </div>
+        </div>
+        <form class="karta formularz" th:action="@{/profil}" th:object="${formularz}" method="post">
+            <div class="siatka-formularza">
+                <label class="pole szeroki">
+                    <span>Nazwa parafii</span>
+                    <input th:field="*{nazwa}" required>
+                    <small th:errors="*{nazwa}"></small>
+                </label>
+                <label class="pole">
+                    <span>Diecezja</span>
+                    <input th:field="*{diecezja}" required>
+                    <small th:errors="*{diecezja}"></small>
+                </label>
+                <label class="pole">
+                    <span>Proboszcz</span>
+                    <input th:field="*{proboszcz}">
+                </label>
+                <label class="pole">
+                    <span>Kurator parafialny</span>
+                    <input th:field="*{kurator}">
+                </label>
+                <label class="pole">
+                    <span>Pora nabożeństwa głównego</span>
+                    <input th:field="*{poraNabozenstwa}">
+                </label>
+                <label class="pole szeroki">
+                    <span>Ulica</span>
+                    <input th:field="*{ulica}">
+                </label>
+                <label class="pole waski">
+                    <span>Kod</span>
+                    <input th:field="*{kodPocztowy}">
+                </label>
+                <label class="pole">
+                    <span>Miejscowość</span>
+                    <input th:field="*{miejscowosc}">
+                </label>
+                <label class="pole">
+                    <span>Telefon</span>
+                    <input th:field="*{telefon}">
+                </label>
+                <label class="pole">
+                    <span>E-mail</span>
+                    <input type="email" th:field="*{email}">
+                    <small th:errors="*{email}"></small>
+                </label>
+                <label class="pole">
+                    <span>Strona</span>
+                    <input th:field="*{www}">
+                </label>
+                <label class="pole szeroki">
+                    <span>Opis</span>
+                    <textarea th:field="*{opis}" rows="4"></textarea>
+                </label>
+            </div>
+            <div class="pasek-akcji" th:if="${mozeProfil}">
+                <button class="btn podstawowy" type="submit">Zapisz profil</button>
+            </div>
+            <p class="uwaga" th:unless="${mozeProfil}">
+                Profil może zmienić administrator albo proboszcz.
+            </p>
+        </form>
+    </main>
+</div>
+</body>
+</html>

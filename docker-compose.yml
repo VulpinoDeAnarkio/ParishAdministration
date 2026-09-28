@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: parafia
+      POSTGRES_USER: parafia
+      POSTGRES_PASSWORD: parafia
+    ports:
+      - "5432:5432"
+    volumes:
+      - parafia-pg:/var/lib/postgresql/data
+
+volumes:
+  parafia-pg:

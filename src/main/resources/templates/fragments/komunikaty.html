@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="komunikaty">
+    <div th:if="${sukces}" class="flash sukces" role="status" th:text="${sukces}"></div>
+    <div th:if="${blad}" class="flash blad" role="alert" th:text="${blad}"></div>
+</div>
+</body>
+</html>

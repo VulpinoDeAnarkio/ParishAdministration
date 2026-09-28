@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nie znaleziono')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <section class="karta pusta">
+            <h1>Nie znaleziono</h1>
+            <p th:text="${komunikat} ?: 'Ten zapis nie istnieje albo został przeniesiony.'">Komunikat</p>
+            <a class="btn podstawowy" th:href="@{/}">Wróć na pulpit</a>
+        </section>
+    </main>
+</div>
+</body>
+</html>

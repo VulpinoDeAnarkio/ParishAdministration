@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Pulpit')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${profil.diecezja}">Diecezja</p>
+                <h1 th:text="${profil.nazwa}">Parafia</h1>
+                <p th:text="${profil.opis}">Opis</p>
+            </div>
+        </div>
+        <section class="siatka-statystyk">
+            <article class="karta stat">
+                <span>Nabożeństwo</span>
+                <strong th:text="${profil.poraNabozenstwa} ?: '—'">godzina</strong>
+            </article>
+            <article class="karta stat">
+                <span>Proboszcz</span>
+                <strong th:text="${profil.proboszcz} ?: '—'">imię</strong>
+            </article>
+            <article class="karta stat">
+                <span>Kurator</span>
+                <strong th:text="${profil.kurator} ?: '—'">imię</strong>
+            </article>
+            <article class="karta stat">
+                <span>Kancelaria</span>
+                <strong th:text="${profil.telefon} ?: '—'">telefon</strong>
+            </article>
+        </section>
+        <section class="karta">
+            <h2>Kancelaria jest gotowa do pracy</h2>
+            <p>Zalogowano do pulpitu parafii. Kolejne moduły — kartoteka, księgi, kalendarz, finanse i postęp — dokładają się do tego samego układu.</p>
+            <dl class="dane">
+                <div>
+                    <dt>Adres</dt>
+                    <dd th:text="${profil.adresJednaLinia} ?: '—'">adres</dd>
+                </div>
+                <div>
+                    <dt>E-mail</dt>
+                    <dd th:text="${profil.email} ?: '—'">email</dd>
+                </div>
+            </dl>
+            <a class="btn podstawowy" th:href="@{/profil}">Profil parafii</a>
+        </section>
+    </main>
+</div>
+</body>
+</html>

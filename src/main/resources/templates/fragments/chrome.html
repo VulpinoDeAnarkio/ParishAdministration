@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="chrome(tresc)" class="aplikacja">
+    <a class="pomin" href="#tresc">Przejdź do treści</a>
+    <input id="menu-przelacznik" class="menu-przelacznik" type="checkbox">
+    <aside class="boczny">
+        <div class="znak">
+            <span class="krzyz" aria-hidden="true"></span>
+            <div>
+                <strong>Lipowa</strong>
+                <small>Kościół ewangelicko-augsburski</small>
+            </div>
+        </div>
+        <nav class="menu" aria-label="Moduły kancelarii">
+            <a th:href="@{/}" th:classappend="${#strings.equals(#request.requestURI, '/')} ? 'aktywny'">Pulpit</a>
+            <p class="sekcja-menu">Parafia</p>
+            <a th:href="@{/profil}" th:classappend="${#strings.startsWith(#request.requestURI, '/profil')} ? 'aktywny'">Profil parafii</a>
+            <a th:if="${jestAdminem}" th:href="@{/uzytkownicy}"
+               th:classappend="${#strings.startsWith(#request.requestURI, '/uzytkownicy')} ? 'aktywny'">Użytkownicy</a>
+        </nav>
+    </aside>
+    <div class="obszar">
+        <header class="gora">
+            <label class="przycisk-menu" for="menu-przelacznik">Menu</label>
+            <div class="kontekst">
+                <span th:text="${profil.nazwa}">Parafia</span>
+            </div>
+            <div class="konto" th:if="${konto != null}">
+                <span>
+                    <strong th:text="${konto.imieINazwisko}">Osoba</strong>
+                    <small th:text="${konto.rola.etykieta}">Rola</small>
+                </span>
+                <form th:action="@{/wyloguj}" method="post">
+                    <button class="btn cichy" type="submit">Wyloguj</button>
+                </form>
+            </div>
+        </header>
+        <div th:replace="${tresc}"></div>
+    </div>
+</div>
+<script th:src="@{/js/parafia.js}"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Logowanie')}"></head>
+<body class="ekran-logowania">
+<main class="karta-logowania">
+    <div class="witaj">
+        <span class="krzyz duzy" aria-hidden="true"></span>
+        <p class="diecezja" th:text="${profil.diecezja}">Diecezja</p>
+        <h1 th:text="${profil.nazwa}">Parafia</h1>
+        <p>Kancelaria: kartoteka, księgi, nabożeństwa, służba i postęp parafii.</p>
+        <ul class="slupy">
+            <li>Chrzest</li>
+            <li>Konfirmacja</li>
+            <li>Wieczerza Pańska</li>
+            <li>Służba</li>
+        </ul>
+    </div>
+    <form class="panel-logowania" th:action="@{/login}" method="post">
+        <h2>Wejście do kancelarii</h2>
+        <p class="lead">Zaloguj się kontem pracownika parafii.</p>
+        <div th:if="${param.blad}" class="flash blad" role="alert">Nieprawidłowy e-mail lub hasło.</div>
+        <div th:if="${param.wylogowano}" class="flash sukces" role="status">Wylogowano. Do zobaczenia.</div>
+        <label class="pole">
+            <span>E-mail</span>
+            <input type="email" name="username" autocomplete="username" required autofocus>
+        </label>
+        <label class="pole">
+            <span>Hasło</span>
+            <input type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button class="btn podstawowy pelny" type="submit">Zaloguj</button>
+        <div class="demo" th:if="${trybDemo}">
+            <p>Tryb demonstracyjny. Hasło wszystkich kont: <code>Lipowa#2026</code></p>
+            <ul>
+                <li>admin@lipowa.parafia.pl</li>
+                <li>proboszcz@lipowa.parafia.pl</li>
+                <li>biuro@lipowa.parafia.pl</li>
+                <li>skarbnik@lipowa.parafia.pl</li>
+                <li>duszpasterz@lipowa.parafia.pl</li>
+            </ul>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Brak dostępu')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <section class="karta pusta">
+            <h1>Brak dostępu</h1>
+            <p>To miejsce jest zarezerwowane dla innej roli w kancelarii.</p>
+            <a class="btn podstawowy" th:href="@{/}">Wróć na pulpit</a>
+        </section>
+    </main>
+</div>
+</body>
+</html>
