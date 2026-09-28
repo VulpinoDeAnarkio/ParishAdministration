@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Przeniesienie')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony"><h1>Przeniesienie</h1><p>Przyjęcie, przeniesienie albo wystąpienie aktualizuje status w kartotece.</p></div>
+        <form class="karta formularz" th:object="${formularz}" method="post" th:action="${edycja} ? @{/ksiegi/przeniesienia/{id}(id=${identyfikator})} : @{/ksiegi/przeniesienia}">
+            <div class="siatka-formularza">
+                <label class="pole"><span>Osoba</span>
+                    <select th:field="*{osobaId}">
+                        <option value="">Wybierz</option>
+                        <option th:each="o : ${osoby}" th:value="${o.id}" th:text="${o.nazwisko + ' ' + o.imie}">osoba</option>
+                    </select>
+                    <small th:errors="*{osobaId}"></small>
+                </label>
+                <label class="pole"><span>Kierunek</span>
+                    <select th:field="*{kierunek}">
+                        <option th:each="k : ${kierunki}" th:value="${k}" th:text="${k.etykieta}">kierunek</option>
+                    </select>
+                </label>
+                <label class="pole"><span>Data</span><input type="date" th:field="*{dataCzynnosci}" required></label>
+                <label class="pole"><span>Numer księgi</span><input th:field="*{numerKsiegi}" required></label>
+                <label class="pole szeroki"><span>Parafia</span><input th:field="*{parafia}" required><small th:errors="*{parafia}"></small></label>
+                <label class="pole szeroki"><span>Uwagi</span><textarea th:field="*{uwagi}" rows="3"></textarea></label>
+            </div>
+            <div class="pasek-akcji"><button class="btn podstawowy" type="submit">Zapisz</button><a class="btn drugi" th:href="@{/ksiegi}">Anuluj</a></div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

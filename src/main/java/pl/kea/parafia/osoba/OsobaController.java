@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.kea.parafia.ksiega.KsiegaService;
 
 @Controller
 @RequestMapping("/osoby")
@@ -22,10 +23,12 @@ public class OsobaController {
 
     private final OsobaService osoby;
     private final GospodarstwoService gospodarstwa;
+    private final KsiegaService ksiegi;
 
-    public OsobaController(OsobaService osoby, GospodarstwoService gospodarstwa) {
+    public OsobaController(OsobaService osoby, GospodarstwoService gospodarstwa, KsiegaService ksiegi) {
         this.osoby = osoby;
         this.gospodarstwa = gospodarstwa;
+        this.ksiegi = ksiegi;
     }
 
     @ModelAttribute("statusy")
@@ -87,6 +90,7 @@ public class OsobaController {
     public String szczegoly(@PathVariable Long id, Model model) {
         Osoba osoba = osoby.znajdz(id);
         model.addAttribute("osoba", osoba);
+        model.addAttribute("ksiegiOsoby", ksiegi.historia(id));
         if (osoba.getGospodarstwo() != null) {
             List<Osoba> dom = osoby.domownicy(osoba.getGospodarstwo().getId());
             model.addAttribute("domownicy", dom);

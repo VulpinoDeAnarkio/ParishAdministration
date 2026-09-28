@@ -60,6 +60,11 @@ public class ModelGlobalny {
         return biezacy.maRole("ADMIN", "PROBOSZCZ", "SEKRETARIAT", "DUSZPASTERZ");
     }
 
+    @ModelAttribute("mozeKsiegi")
+    public boolean mozeKsiegi() {
+        return biezacy.maRole("ADMIN", "PROBOSZCZ", "SEKRETARIAT");
+    }
+
     @ModelAttribute("jestAdminem")
     public boolean jestAdminem() {
         return biezacy.maRole("ADMIN");

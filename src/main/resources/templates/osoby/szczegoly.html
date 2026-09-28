@@ -55,6 +55,28 @@
                 </div>
             </aside>
         </div>
+        <section class="karta">
+            <div class="naglowek-strony">
+                <h2>Księgi</h2>
+                <div class="wiersz-akcji" th:if="${mozeKsiegi}">
+                    <a class="btn drugi" th:href="@{/ksiegi/chrzty/nowy(osobaId=${osoba.id})}">Chrzest</a>
+                    <a class="btn drugi" th:href="@{/ksiegi/konfirmacje/nowy(osobaId=${osoba.id})}">Konfirmacja</a>
+                    <a class="btn drugi" th:href="@{/ksiegi/pogrzeby/nowy(osobaId=${osoba.id})}">Pogrzeb</a>
+                    <a class="btn drugi" th:href="@{/ksiegi/przeniesienia/nowy(osobaId=${osoba.id})}">Przeniesienie</a>
+                </div>
+            </div>
+            <p th:if="${#lists.isEmpty(ksiegiOsoby)}">Brak czynności w księgach.</p>
+            <ol class="os-czasu">
+                <li th:each="wpis : ${ksiegiOsoby}">
+                    <time th:text="${#temporals.format(wpis.data, 'dd.MM.yyyy')}">data</time>
+                    <div>
+                        <strong th:text="${wpis.rodzaj}">rodzaj</strong>
+                        <div th:text="${wpis.opis}">opis</div>
+                        <a th:if="${mozeKsiegi}" th:href="@{${wpis.edycja}}">Popraw wpis</a>
+                    </div>
+                </li>
+            </ol>
+        </section>
     </main>
 </div>
 </body>

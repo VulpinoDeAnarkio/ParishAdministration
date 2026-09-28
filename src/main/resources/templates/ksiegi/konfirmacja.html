@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Konfirmacja')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony"><h1 th:text="${edycja} ? 'Poprawa konfirmacji' : 'Nowa konfirmacja'">Konfirmacja</h1>
+            <p>Wpis wymaga wcześniejszego chrztu. Po konfirmacji dziecko ochrzczone staje się członkiem parafii.</p></div>
+        <form class="karta formularz" th:object="${formularz}" method="post" th:action="${edycja} ? @{/ksiegi/konfirmacje/{id}(id=${identyfikator})} : @{/ksiegi/konfirmacje}">
+            <div class="siatka-formularza">
+                <label class="pole szeroki"><span>Osoba</span>
+                    <input type="search" data-filtr="osoba-konfirmacja" placeholder="Filtruj listę" aria-label="Filtruj osoby">
+                    <select id="osoba-konfirmacja" th:field="*{osobaId}">
+                        <option value="">Wybierz</option>
+                        <option th:each="o : ${osoby}" th:value="${o.id}" th:text="${o.nazwisko + ' ' + o.imie}">osoba</option>
+                    </select>
+                    <small th:errors="*{osobaId}"></small>
+                </label>
+                <label class="pole"><span>Data</span><input type="date" th:field="*{dataKonfirmacji}" required><small th:errors="*{dataKonfirmacji}"></small></label>
+                <label class="pole"><span>Numer księgi</span><input th:field="*{numerKsiegi}" required></label>
+                <label class="pole"><span>Miejsce</span><input th:field="*{miejsce}" required></label>
+                <label class="pole"><span>Duchowny</span><input th:field="*{duchowny}" required></label>
+                <label class="pole"><span>Rocznik</span><input th:field="*{rocznik}"></label>
+                <label class="pole szeroki"><span>Werset</span><input th:field="*{werset}"></label>
+                <label class="pole szeroki"><span>Uwagi</span><textarea th:field="*{uwagi}" rows="3"></textarea></label>
+            </div>
+            <div class="pasek-akcji"><button class="btn podstawowy" type="submit">Zapisz</button><a class="btn drugi" th:href="@{/ksiegi}">Anuluj</a></div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

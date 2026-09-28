@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Księgi')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1>Księgi parafialne</h1>
+                <p>Chrzty, konfirmacje, śluby, zgony i przeniesienia. Wpisów nie kasujemy — można je poprawić.</p>
+            </div>
+            <div class="wiersz-akcji" th:if="${mozeKsiegi}">
+                <a class="btn podstawowy" th:href="@{/ksiegi/chrzty/nowy}">Chrzest</a>
+                <a class="btn drugi" th:href="@{/ksiegi/konfirmacje/nowy}">Konfirmacja</a>
+                <a class="btn drugi" th:href="@{/ksiegi/sluby/nowy}">Ślub</a>
+                <a class="btn drugi" th:href="@{/ksiegi/pogrzeby/nowy}">Pogrzeb</a>
+                <a class="btn drugi" th:href="@{/ksiegi/przeniesienia/nowy}">Przeniesienie</a>
+            </div>
+        </div>
+        <section class="karta">
+            <h2>Chrzty</h2>
+            <p th:if="${#lists.isEmpty(chrzty)}">Księga chrztów jest pusta.</p>
+            <div class="tabela-opakowanie" th:unless="${#lists.isEmpty(chrzty)}">
+                <table>
+                    <thead><tr><th>Data</th><th>Osoba</th><th>Numer</th><th>Miejsce</th></tr></thead>
+                    <tbody>
+                    <tr th:each="wpis : ${chrzty}">
+                        <td th:text="${#temporals.format(wpis.dataChrztu, 'dd.MM.yyyy')}">data</td>
+                        <td><a th:href="@{/osoby/{id}(id=${wpis.osoba.id})}" th:text="${wpis.osoba.imieINazwisko}">osoba</a></td>
+                        <td><a th:href="@{/ksiegi/chrzty/{id}/edycja(id=${wpis.id})}" th:text="${wpis.numerKsiegi}">nr</a></td>
+                        <td th:text="${wpis.miejsce}">miejsce</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="karta">
+            <h2>Konfirmacje</h2>
+            <p th:if="${#lists.isEmpty(konfirmacje)}">Księga konfirmacji jest pusta.</p>
+            <div class="tabela-opakowanie" th:unless="${#lists.isEmpty(konfirmacje)}">
+                <table>
+                    <thead><tr><th>Data</th><th>Osoba</th><th>Numer</th><th>Rocznik</th></tr></thead>
+                    <tbody>
+                    <tr th:each="wpis : ${konfirmacje}">
+                        <td th:text="${#temporals.format(wpis.dataKonfirmacji, 'dd.MM.yyyy')}">data</td>
+                        <td><a th:href="@{/osoby/{id}(id=${wpis.osoba.id})}" th:text="${wpis.osoba.imieINazwisko}">osoba</a></td>
+                        <td><a th:href="@{/ksiegi/konfirmacje/{id}/edycja(id=${wpis.id})}" th:text="${wpis.numerKsiegi}">nr</a></td>
+                        <td th:text="${wpis.rocznik}">rocznik</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="karta">
+            <h2>Śluby</h2>
+            <p th:if="${#lists.isEmpty(sluby)}">Księga ślubów jest pusta.</p>
+            <div class="tabela-opakowanie" th:unless="${#lists.isEmpty(sluby)}">
+                <table>
+                    <thead><tr><th>Data</th><th>Osoby</th><th>Numer</th><th>Rodzaj</th></tr></thead>
+                    <tbody>
+                    <tr th:each="wpis : ${sluby}">
+                        <td th:text="${#temporals.format(wpis.dataSlubu, 'dd.MM.yyyy')}">data</td>
+                        <td th:text="${wpis.osobaA.imieINazwisko + ' i ' + wpis.osobaB.imieINazwisko}">osoby</td>
+                        <td><a th:href="@{/ksiegi/sluby/{id}/edycja(id=${wpis.id})}" th:text="${wpis.numerKsiegi}">nr</a></td>
+                        <td th:text="${wpis.rodzaj.etykieta}">rodzaj</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="karta">
+            <h2>Zmarli</h2>
+            <p th:if="${#lists.isEmpty(pogrzeby)}">Księga zmarłych jest pusta.</p>
+            <div class="tabela-opakowanie" th:unless="${#lists.isEmpty(pogrzeby)}">
+                <table>
+                    <thead><tr><th>Zgon</th><th>Osoba</th><th>Numer</th><th>Cmentarz</th></tr></thead>
+                    <tbody>
+                    <tr th:each="wpis : ${pogrzeby}">
+                        <td th:text="${#temporals.format(wpis.dataZgonu, 'dd.MM.yyyy')}">data</td>
+                        <td><a th:href="@{/osoby/{id}(id=${wpis.osoba.id})}" th:text="${wpis.osoba.imieINazwisko}">osoba</a></td>
+                        <td><a th:href="@{/ksiegi/pogrzeby/{id}/edycja(id=${wpis.id})}" th:text="${wpis.numerKsiegi}">nr</a></td>
+                        <td th:text="${wpis.cmentarz}">cmentarz</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="karta">
+            <h2>Przeniesienia</h2>
+            <p th:if="${#lists.isEmpty(przeniesienia)}">Brak wpisów.</p>
+            <div class="tabela-opakowanie" th:unless="${#lists.isEmpty(przeniesienia)}">
+                <table>
+                    <thead><tr><th>Data</th><th>Osoba</th><th>Kierunek</th><th>Parafia</th></tr></thead>
+                    <tbody>
+                    <tr th:each="wpis : ${przeniesienia}">
+                        <td th:text="${#temporals.format(wpis.dataCzynnosci, 'dd.MM.yyyy')}">data</td>
+                        <td th:text="${wpis.osoba.imieINazwisko}">osoba</td>
+                        <td th:text="${wpis.kierunek.etykieta}">kierunek</td>
+                        <td th:text="${wpis.parafia}">parafia</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
