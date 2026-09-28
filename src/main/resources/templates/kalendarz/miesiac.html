@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Kalendarz')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1 th:text="${nazwa}">Miesiąc</h1>
+                <div class="wiersz-akcji">
+                    <a class="btn drugi" th:href="@{/kalendarz(rok=${poprzedni.year}, miesiac=${poprzedni.monthValue})}">Poprzedni</a>
+                    <a class="btn drugi" th:href="@{/kalendarz}">Dziś</a>
+                    <a class="btn drugi" th:href="@{/kalendarz(rok=${nastepny.year}, miesiac=${nastepny.monthValue})}">Następny</a>
+                </div>
+            </div>
+            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/kalendarz/nowe}">Nowe wydarzenie</a>
+        </div>
+        <section class="karta">
+            <div class="kalendarz">
+                <div class="dzien-nazwa">Pon</div><div class="dzien-nazwa">Wt</div><div class="dzien-nazwa">Śr</div>
+                <div class="dzien-nazwa">Czw</div><div class="dzien-nazwa">Pt</div><div class="dzien-nazwa">Sob</div><div class="dzien-nazwa">Ndz</div>
+                <th:block th:each="tydzien : ${tygodnie}">
+                    <div class="dzien" th:each="dzien : ${tydzien}" th:classappend="${!dzien.wMiesiacu} ? 'obcy' : (${dzien.dzisiaj} ? 'dzisiaj' : '')">
+                        <strong th:text="${dzien.data.dayOfMonth}">1</strong>
+                        <a class="zdarzenie-mini" th:each="w : ${dzien.wydarzenia}" th:href="@{/kalendarz/{id}(id=${w.id})}"
+                           th:text="${#temporals.format(w.poczatek, 'HH:mm') + ' ' + w.tytul}">wydarzenie</a>
+                    </div>
+                </th:block>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${wydarzenie.tytul})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${wydarzenie.rodzaj.etykieta}">rodzaj</p>
+                <h1 th:text="${wydarzenie.tytul}">Tytuł</h1>
+                <p th:text="${#temporals.format(wydarzenie.poczatek, 'dd.MM.yyyy HH:mm') + ' – ' + #temporals.format(wydarzenie.koniec, 'HH:mm')}">czas</p>
+            </div>
+            <div class="wiersz-akcji" th:if="${mozeEdytowacKartoteke}">
+                <a class="btn podstawowy" th:href="@{/kalendarz/{id}/edycja(id=${wydarzenie.id})}">Edytuj</a>
+            </div>
+        </div>
+        <section class="karta">
+            <dl class="dane">
+                <div><dt>Sala</dt><dd th:text="${wydarzenie.sala != null ? wydarzenie.sala.nazwa : '—'}">sala</dd></div>
+                <div><dt>Miejsce</dt><dd th:text="${wydarzenie.miejsce} ?: '—'">miejsce</dd></div>
+                <div><dt>Organizator</dt><dd th:text="${wydarzenie.organizator} ?: '—'">kto</dd></div>
+            </dl>
+            <p th:if="${wydarzenie.opis != null}" th:text="${wydarzenie.opis}">opis</p>
+            <form th:if="${mozeKsiegi}" th:action="@{/kalendarz/{id}/usun(id=${wydarzenie.id})}" method="post" data-potwierdz="Usunąć wydarzenie z kalendarza?">
+                <button class="btn niebezpieczny" type="submit">Usuń</button>
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+</html>

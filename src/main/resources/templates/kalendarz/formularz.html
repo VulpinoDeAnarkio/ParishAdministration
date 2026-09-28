@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Wydarzenie')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony"><h1 th:text="${edycja} ? 'Edycja wydarzenia' : 'Nowe wydarzenie'">Wydarzenie</h1></div>
+        <form class="karta formularz" th:object="${formularz}" method="post" th:action="${edycja} ? @{/kalendarz/{id}(id=${identyfikator})} : @{/kalendarz}">
+            <div class="siatka-formularza">
+                <label class="pole szeroki"><span>Tytuł</span><input th:field="*{tytul}" required><small th:errors="*{tytul}"></small></label>
+                <label class="pole"><span>Początek</span><input type="datetime-local" th:field="*{poczatek}" required><small th:errors="*{poczatek}"></small></label>
+                <label class="pole"><span>Koniec</span><input type="datetime-local" th:field="*{koniec}" required><small th:errors="*{koniec}"></small></label>
+                <label class="pole"><span>Rodzaj</span>
+                    <select th:field="*{rodzaj}">
+                        <option th:each="r : ${rodzaje}" th:value="${r}" th:text="${r.etykieta}">rodzaj</option>
+                    </select>
+                </label>
+                <label class="pole"><span>Sala</span>
+                    <select th:field="*{salaId}">
+                        <option value="">Bez sali</option>
+                        <option th:each="s : ${sale}" th:value="${s.id}" th:text="${s.nazwa}">sala</option>
+                    </select>
+                </label>
+                <label class="pole"><span>Miejsce opisowe</span><input th:field="*{miejsce}" placeholder="np. filiał w Brzozowie"></label>
+                <label class="pole"><span>Organizator</span><input th:field="*{organizator}"></label>
+                <label class="pole"><span>Widoczne na tablicy ogłoszeń</span><input type="checkbox" th:field="*{widocznePublicznie}"></label>
+                <label class="pole szeroki"><span>Opis</span><textarea th:field="*{opis}" rows="4"></textarea></label>
+            </div>
+            <div class="pasek-akcji"><button class="btn podstawowy" type="submit">Zapisz</button><a class="btn drugi" th:href="@{/kalendarz}">Anuluj</a></div>
+        </form>
+        <form class="karta formularz" th:action="@{/kalendarz/sale}" method="post" th:if="${!edycja}">
+            <h2>Nowa sala</h2>
+            <div class="siatka-formularza">
+                <label class="pole"><span>Nazwa</span><input name="nazwa" required></label>
+                <label class="pole"><span>Pojemność</span><input name="pojemnosc" type="number" min="1"></label>
+                <label class="pole"><span>Opis</span><input name="opis"></label>
+            </div>
+            <button class="btn drugi" type="submit">Dodaj salę</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>
