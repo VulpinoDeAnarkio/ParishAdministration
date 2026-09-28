@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Postęp parafii')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Rok kościelny</p>
+                <h1>Postęp parafii</h1>
+                <p>Cele liczą się na bieżąco z kartoteki, obecności, kasy i nauki konfirmacyjnej.</p>
+            </div>
+            <div class="wiersz-akcji">
+                <a class="btn drugi" th:href="@{/postep/nauka}">Nauka konfirmacyjna</a>
+                <a class="btn podstawowy" th:if="${mozeProfil}" th:href="@{/postep/cele/nowy}">Nowy cel</a>
+            </div>
+        </div>
+        <section class="karta" th:each="w : ${wyniki}">
+            <div class="naglowek-strony">
+                <div>
+                    <h2 th:text="${w.cel.nazwa}">Cel</h2>
+                    <p th:text="${w.cel.zrodlo.etykieta + ' · rok ' + w.cel.rok}">źródło</p>
+                </div>
+                <strong th:text="${w.procent + '%'}">0%</strong>
+            </div>
+            <div class="pasek-postepu" role="progressbar" th:attr="aria-valuenow=${w.procent}" aria-valuemin="0" aria-valuemax="100">
+                <span th:style="'width:' + ${w.procent} + '%'"></span>
+            </div>
+            <p th:text="${#numbers.formatDecimal(w.aktualna, 1, 0)} + ' z ' + ${#numbers.formatDecimal(w.cel.wartoscDocelowa, 1, 0)}">wartość</p>
+        </section>
+        <p th:if="${#lists.isEmpty(wyniki)}">Nie ustawiono jeszcze celów parafii.</p>
+    </main>
+</div>
+</body>
+</html>

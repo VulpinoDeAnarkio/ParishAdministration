@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Cel parafii')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony"><h1>Nowy cel</h1></div>
+        <form class="karta formularz" th:object="${formularz}" th:action="@{/postep/cele}" method="post">
+            <div class="siatka-formularza">
+                <label class="pole szeroki"><span>Nazwa</span><input th:field="*{nazwa}" required></label>
+                <label class="pole"><span>Źródło</span>
+                    <select th:field="*{zrodlo}">
+                        <option th:each="z : ${zrodla}" th:value="${z}" th:text="${z.etykieta}">źródło</option>
+                    </select>
+                </label>
+                <label class="pole"><span>Wartość docelowa</span><input type="number" step="0.01" min="0.01" th:field="*{wartoscDocelowa}" required></label>
+                <label class="pole"><span>Wartość ręczna</span><input type="number" step="0.01" th:field="*{wartoscReczna}"></label>
+                <label class="pole"><span>Rok</span><input type="number" th:field="*{rok}" required></label>
+                <label class="pole"><span>Aktywny</span><input type="checkbox" th:field="*{aktywny}"></label>
+                <label class="pole szeroki"><span>Opis</span><textarea th:field="*{opis}" rows="3"></textarea></label>
+            </div>
+            <div class="pasek-akcji"><button class="btn podstawowy" type="submit">Zapisz</button><a class="btn drugi" th:href="@{/postep}">Anuluj</a></div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

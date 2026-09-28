@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${lekcja.temat})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${#temporals.format(lekcja.dataLekcji, 'dd.MM.yyyy')}">data</p>
+                <h1 th:text="${lekcja.temat}">Lekcja</h1>
+            </div>
+            <a class="btn drugi" th:href="@{/postep/nauka/{id}(id=${lekcja.rocznik.id})}">Rocznik</a>
+        </div>
+        <form class="karta" method="post" th:action="@{/postep/lekcje/{id}(id=${lekcja.id})}">
+            <table class="tabela">
+                <thead><tr><th>Obecny</th><th>Osoba</th></tr></thead>
+                <tbody>
+                <tr th:each="u : ${uczestnicy}">
+                    <td>
+                        <input type="hidden" name="osoby" th:value="${u.osoba.id}">
+                        <input type="checkbox" name="obecni" th:value="${u.osoba.id}"
+                               th:checked="${!#lists.isEmpty(obecnosci.?[osoba.id == u.osoba.id and obecny])}">
+                    </td>
+                    <td th:text="${u.osoba.imieINazwisko}">osoba</td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn podstawowy" type="submit" th:if="${mozeEdytowacKartoteke}">Zapisz obecność</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>

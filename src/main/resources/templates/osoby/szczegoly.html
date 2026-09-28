@@ -16,6 +16,13 @@
                 <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/osoby/{id}/edycja(id=${osoba.id})}">Edytuj</a>
             </div>
         </div>
+        <section class="karta">
+            <h2>Droga wiary</h2>
+            <div class="etapy">
+                <span class="etap" th:each="etap : ${droga}" th:text="${etap.etykieta}">etap</span>
+                <span th:if="${#lists.isEmpty(droga)}">Jeszcze bez odnotowanych etapów.</span>
+            </div>
+        </section>
         <div class="dwie-kolumny">
             <section class="karta">
                 <h2>Dane</h2>

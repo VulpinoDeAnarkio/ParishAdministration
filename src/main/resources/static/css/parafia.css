@@ -342,6 +342,24 @@ code { font-family: ui-monospace, monospace; }
     .kalendarz { grid-template-columns: 1fr; }
     .tresc { padding: 1rem; }
 }
+.pasek-postepu {
+    height: 0.7rem;
+    background: #efe6d6;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.pasek-postepu span {
+    display: block;
+    height: 100%;
+    background: #7a1f2b;
+}
+.etapy { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.etap {
+    border: 1px solid var(--linia);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+    background: #f7f1e6;
+}
 @media print {
     .boczny, .gora, .btn, .filtry, .pasek-akcji { display: none !important; }
     .aplikacja, .obszar, .tresc { display: block; max-width: none; padding: 0; }

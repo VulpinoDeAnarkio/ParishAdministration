@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${rocznik.nazwa})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${rocznik.rok}">rok</p>
+                <h1 th:text="${rocznik.nazwa}">Rocznik</h1>
+            </div>
+        </div>
+        <section class="karta">
+            <h2>Uczestnicy</h2>
+            <ul class="lista-prosta">
+                <li th:each="u : ${uczestnicy}"><a th:href="@{/osoby/{id}(id=${u.osoba.id})}" th:text="${u.osoba.imieINazwisko}">osoba</a></li>
+                <li th:if="${#lists.isEmpty(uczestnicy)}">Rocznik jest pusty.</li>
+            </ul>
+        </section>
+        <form class="karta formularz" th:action="@{/postep/nauka/{id}/uczestnicy(id=${rocznik.id})}" method="post" th:if="${mozeEdytowacKartoteke}">
+            <h2>Dopisz ochrzczoną osobę</h2>
+            <div class="siatka-formularza">
+                <label class="pole"><span>Filtr</span><input type="search" data-filtr="osoba-rocznik" placeholder="Filtruj" aria-label="Filtruj osoby"></label>
+                <label class="pole szeroki"><span>Osoba</span>
+                    <select id="osoba-rocznik" name="osobaId" required>
+                        <option th:each="o : ${osoby}" th:value="${o.id}" th:text="${o.imieINazwisko}">osoba</option>
+                    </select>
+                </label>
+            </div>
+            <button class="btn drugi" type="submit">Dopisz</button>
+        </form>
+        <section class="karta">
+            <h2>Lekcje</h2>
+            <ul class="lista-prosta">
+                <li th:each="l : ${lekcje}">
+                    <a th:href="@{/postep/lekcje/{id}(id=${l.id})}" th:text="${#temporals.format(l.dataLekcji, 'dd.MM.yyyy') + ' · ' + l.temat}">lekcja</a>
+                </li>
+            </ul>
+        </section>
+        <form class="karta formularz" th:action="@{/postep/nauka/{id}/lekcje(id=${rocznik.id})}" method="post" th:if="${mozeEdytowacKartoteke}">
+            <h2>Nowa lekcja</h2>
+            <div class="siatka-formularza">
+                <label class="pole"><span>Data</span><input type="date" name="dataLekcji" required></label>
+                <label class="pole szeroki"><span>Temat</span><input name="temat" required></label>
+            </div>
+            <button class="btn podstawowy" type="submit">Dodaj lekcję</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>

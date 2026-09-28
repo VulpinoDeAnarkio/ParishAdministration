@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nauka konfirmacyjna')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony"><h1>Nauka konfirmacyjna</h1></div>
+        <section class="karta">
+            <ul class="lista-prosta">
+                <li th:each="r : ${roczniki}"><a th:href="@{/postep/nauka/{id}(id=${r.id})}" th:text="${r.rok + ' · ' + r.nazwa}">rocznik</a></li>
+                <li th:if="${#lists.isEmpty(roczniki)}">Nie ma jeszcze rocznika.</li>
+            </ul>
+        </section>
+        <form class="karta formularz" th:action="@{/postep/nauka}" method="post" th:if="${mozeEdytowacKartoteke}">
+            <h2>Nowy rocznik</h2>
+            <div class="siatka-formularza">
+                <label class="pole"><span>Nazwa</span><input name="nazwa" required placeholder="np. Rocznik 2026"></label>
+                <label class="pole"><span>Rok</span><input name="rok" type="number" required value="2026"></label>
+            </div>
+            <button class="btn podstawowy" type="submit">Utwórz</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>
