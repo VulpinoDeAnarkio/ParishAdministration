@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Ogłoszenie')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony"><h1 th:text="${identyfikator != null} ? 'Edycja ogłoszenia' : 'Nowe ogłoszenie'">Ogłoszenie</h1></div>
+        <form class="karta formularz" th:object="${formularz}" method="post" th:action="${identyfikator != null} ? @{/ogloszenia/{id}(id=${identyfikator})} : @{/ogloszenia}">
+            <div class="siatka-formularza">
+                <label class="pole szeroki"><span>Tytuł</span><input th:field="*{tytul}" required></label>
+                <label class="pole"><span>Od</span><input type="date" th:field="*{obowiazujeOd}" required></label>
+                <label class="pole"><span>Do</span><input type="date" th:field="*{obowiazujeDo}"></label>
+                <label class="pole"><span>Na tablicy publicznej</span><input type="checkbox" th:field="*{widocznePublicznie}"></label>
+                <label class="pole szeroki"><span>Treść</span><textarea th:field="*{tresc}" rows="6" required></textarea></label>
+            </div>
+            <div class="pasek-akcji"><button class="btn podstawowy" type="submit">Zapisz</button><a class="btn drugi" th:href="@{/ogloszenia}">Anuluj</a></div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

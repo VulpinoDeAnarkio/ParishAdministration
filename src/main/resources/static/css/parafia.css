@@ -342,6 +342,8 @@ code { font-family: ui-monospace, monospace; }
     .kalendarz { grid-template-columns: 1fr; }
     .tresc { padding: 1rem; }
 }
+.publiczna { background: #f6f1e8; }
+.tablica { max-width: 42rem; margin: 2rem auto; }
 .pasek-postepu {
     height: 0.7rem;
     background: #efe6d6;

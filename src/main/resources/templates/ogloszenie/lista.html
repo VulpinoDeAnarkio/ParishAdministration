@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Ogłoszenia')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Tablica</p>
+                <h1>Ogłoszenia</h1>
+            </div>
+            <a class="btn podstawowy" th:if="${mozeKsiegi}" th:href="@{/ogloszenia/nowe}">Nowe ogłoszenie</a>
+        </div>
+        <article class="karta" th:each="o : ${ogloszenia}">
+            <p class="kicker" th:text="${o.widocznePublicznie} ? 'Publiczne' : 'Tylko kancelaria'">zasięg</p>
+            <h2 th:text="${o.tytul}">Tytuł</h2>
+            <p th:text="${#temporals.format(o.obowiazujeOd, 'dd.MM.yyyy') + (o.obowiazujeDo != null ? ' – ' + #temporals.format(o.obowiazujeDo, 'dd.MM.yyyy') : '')}">okres</p>
+            <p th:text="${o.tresc}">treść</p>
+            <a th:if="${mozeKsiegi}" th:href="@{/ogloszenia/{id}/edycja(id=${o.id})}">Edytuj</a>
+        </article>
+        <p th:if="${#lists.isEmpty(ogloszenia)}">Brak ogłoszeń.</p>
+    </main>
+</div>
+</body>
+</html>

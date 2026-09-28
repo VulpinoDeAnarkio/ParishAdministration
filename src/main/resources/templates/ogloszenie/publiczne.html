@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Tablica ogłoszeń')}"></head>
+<body class="publiczna">
+<main class="tresc tablica">
+    <p class="kicker">Parafia Ewangelicko-Augsburska Świętej Trójcy w Lipowej</p>
+    <h1>Tablica ogłoszeń</h1>
+    <article class="karta" th:each="o : ${ogloszenia}">
+        <h2 th:text="${o.tytul}">Tytuł</h2>
+        <p th:text="${o.tresc}">Treść</p>
+    </article>
+    <p th:if="${#lists.isEmpty(ogloszenia)}">Dziś nie ma ogłoszeń na tablicy.</p>
+    <p><a th:href="@{/login}">Wejście do kancelarii</a></p>
+</main>
+</body>
+</html>
