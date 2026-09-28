@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Służba')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Wolontariat</p>
+                <h1>Służba i zadania</h1>
+            </div>
+            <a class="btn podstawowy" th:if="${mozeEdytowacKartoteke}" th:href="@{/sluzba/zadania/nowe}">Nowe zadanie</a>
+        </div>
+        <section class="karta">
+            <h2>Zadania</h2>
+            <table class="tabela">
+                <thead><tr><th>Tytuł</th><th>Termin</th><th>Osoba</th><th>Status</th></tr></thead>
+                <tbody>
+                <tr th:each="z : ${zadania}">
+                    <td th:text="${z.tytul}">tytuł</td>
+                    <td th:text="${z.termin != null ? #temporals.format(z.termin, 'dd.MM.yyyy') : '—'}">termin</td>
+                    <td th:text="${z.osoba != null ? z.osoba.imieINazwisko : '—'}">osoba</td>
+                    <td th:text="${z.status.etykieta}">status</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(zadania)}"><td colspan="4">Brak zadań.</td></tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="karta">
+            <h2>Dyżury przy nabożeństwach</h2>
+            <ul class="lista-prosta">
+                <li th:each="n : ${nabozenstwa}">
+                    <a th:href="@{/sluzba/nabozenstwo/{id}(id=${n.id})}"
+                       th:text="${#temporals.format(n.wydarzenie.poczatek, 'dd.MM.yyyy') + ' · ' + n.rodzaj.etykieta}">nabożeństwo</a>
+                </li>
+            </ul>
+        </section>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Dyżury')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${#temporals.format(nabozenstwo.wydarzenie.poczatek, 'dd.MM.yyyy HH:mm')}">kiedy</p>
+                <h1>Dyżury</h1>
+            </div>
+        </div>
+        <section class="karta">
+            <table class="tabela">
+                <thead><tr><th>Rola</th><th>Osoba</th></tr></thead>
+                <tbody>
+                <tr th:each="d : ${dyzury}">
+                    <td th:text="${d.rola.etykieta}">rola</td>
+                    <td th:text="${d.osoba.imieINazwisko}">osoba</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(dyzury)}"><td colspan="2">Nikt jeszcze nie jest wpisany.</td></tr>
+                </tbody>
+            </table>
+        </section>
+        <form class="karta formularz" th:object="${dyzur}" th:action="@{/sluzba/dyzury}" method="post" th:if="${mozeEdytowacKartoteke}">
+            <h2>Przypisz dyżur</h2>
+            <input type="hidden" th:field="*{nabozenstwoId}">
+            <div class="siatka-formularza">
+                <label class="pole"><span>Filtr</span><input type="search" data-filtr="osoba-dyzur" placeholder="Filtruj" aria-label="Filtruj osoby"></label>
+                <label class="pole szeroki"><span>Osoba</span>
+                    <select id="osoba-dyzur" th:field="*{osobaId}" required>
+                        <option value="">Wybierz</option>
+                        <option th:each="o : ${osoby}" th:value="${o.id}" th:text="${o.imieINazwisko}">osoba</option>
+                    </select>
+                </label>
+                <label class="pole"><span>Rola</span>
+                    <select th:field="*{rola}">
+                        <option th:each="r : ${role}" th:value="${r}" th:text="${r.etykieta}">rola</option>
+                    </select>
+                </label>
+            </div>
+            <button class="btn podstawowy" type="submit">Przypisz</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>
