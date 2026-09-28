@@ -37,8 +37,16 @@ class PostepServiceTest {
                 "Iga", null, "Horn", null, Plec.KOBIETA, null, null, null, null, null, null, null,
                 StatusCzlonkostwa.CZLONEK, null, null, null, false, true, null, null
         ));
-        postep.zapiszCel(new CelFormularz("Członkowie", null, ZrodloCelu.LICZBA_CZLONKOW, new BigDecimal("2"), null, 2026, true));
-        assertThat(postep.wyniki().getFirst().procent()).isEqualTo(50);
+        long czlonkowie = osoby.liczbaCzlonkow();
+        postep.zapiszCel(new CelFormularz(
+                "Członkowie", null, ZrodloCelu.LICZBA_CZLONKOW, BigDecimal.valueOf(czlonkowie * 2), null, 2026, true
+        ));
+        int procent = postep.wyniki().stream()
+                .filter(wynik -> "Członkowie".equals(wynik.cel().getNazwa()))
+                .findFirst()
+                .orElseThrow()
+                .procent();
+        assertThat(procent).isEqualTo(50);
 
         Osoba dziecko = osoby.utworz(new OsobaFormularz(
                 "Ola", null, "Mint", null, Plec.KOBIETA, LocalDate.of(2014, 3, 1), null, null, null, null, null, null,
