@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Finanse')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Kasa zboru</p>
+                <h1>Finanse</h1>
+            </div>
+            <div class="wiersz-akcji">
+                <a class="btn drugi" th:href="@{/finanse/fundusze/nowy}">Nowy fundusz</a>
+                <a class="btn podstawowy" th:href="@{/finanse/operacje/nowa}">Nowa operacja</a>
+            </div>
+        </div>
+        <div class="siatka-kart">
+            <article class="karta" th:each="s : ${salda}">
+                <p class="kicker" th:text="${s.fundusz.aktywny} ? 'Aktywny' : 'Zamknięty'">stan</p>
+                <h2><a th:href="@{/finanse/fundusze/{id}(id=${s.fundusz.id})}" th:text="${s.fundusz.nazwa}">fundusz</a></h2>
+                <p class="kwota" th:text="${#numbers.formatDecimal(s.saldo, 1, 'COMMA', 2, 'POINT')} + ' zł'">0 zł</p>
+            </article>
+        </div>
+        <section class="karta">
+            <h2>Ostatnie operacje</h2>
+            <table class="tabela">
+                <thead><tr><th>Data</th><th>Fundusz</th><th>Rodzaj</th><th>Kwota</th></tr></thead>
+                <tbody>
+                <tr th:each="o : ${ostatnie}">
+                    <td th:text="${#temporals.format(o.dataOperacji, 'dd.MM.yyyy')}">data</td>
+                    <td th:text="${o.fundusz.nazwa}">fundusz</td>
+                    <td th:text="${o.rodzaj.etykieta}">rodzaj</td>
+                    <td th:text="${(o.kierunek.name() == 'WYDATEK' ? '−' : '+') + #numbers.formatDecimal(o.kwota, 1, 'COMMA', 2, 'POINT')}">kwota</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(ostatnie)}"><td colspan="4">Nie ma jeszcze operacji.</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+</body>
+</html>

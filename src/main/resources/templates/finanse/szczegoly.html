@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${fundusz.nazwa})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Fundusz</p>
+                <h1 th:text="${fundusz.nazwa}">Fundusz</h1>
+                <p class="kwota" th:text="${#numbers.formatDecimal(saldo, 1, 'COMMA', 2, 'POINT')} + ' zł'">0</p>
+            </div>
+            <a class="btn podstawowy" th:href="@{/finanse/operacje/nowa}">Nowa operacja</a>
+        </div>
+        <section class="karta">
+            <table class="tabela">
+                <thead><tr><th>Data</th><th>Rodzaj</th><th>Opis</th><th>Kwota</th><th></th></tr></thead>
+                <tbody>
+                <tr th:each="o : ${operacje}">
+                    <td th:text="${#temporals.format(o.dataOperacji, 'dd.MM.yyyy')}">data</td>
+                    <td th:text="${o.rodzaj.etykieta}">rodzaj</td>
+                    <td th:text="${o.opis} ?: ${o.osoba != null ? o.osoba.imieINazwisko : '—'}">opis</td>
+                    <td th:text="${(o.kierunek.name() == 'WYDATEK' ? '−' : '+') + #numbers.formatDecimal(o.kwota, 1, 'COMMA', 2, 'POINT')}">kwota</td>
+                    <td>
+                        <form th:action="@{/finanse/operacje/{id}/usun(id=${o.id})}" method="post" data-potwierdz="Usunąć tę operację?">
+                            <button class="btn cichy" type="submit">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+</body>
+</html>
