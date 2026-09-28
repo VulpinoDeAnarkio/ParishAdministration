@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${nabozenstwo.rodzaj.etykieta})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${nabozenstwo.rodzaj.etykieta}">rodzaj</p>
+                <h1 th:text="${nabozenstwo.niedzielaRoku} ?: ${nabozenstwo.rodzaj.etykieta}">Nabożeństwo</h1>
+                <p th:text="${#temporals.format(nabozenstwo.wydarzenie.poczatek, 'EEEE, dd.MM.yyyy HH:mm')}">kiedy</p>
+            </div>
+            <div class="wiersz-akcji" th:if="${mozeEdytowacKartoteke}">
+                <a class="btn podstawowy" th:href="@{/nabozenstwa/{id}/edycja(id=${nabozenstwo.id})}">Edytuj</a>
+                <a class="btn drugi" th:href="@{/kalendarz/{id}(id=${nabozenstwo.wydarzenie.id})}">W kalendarzu</a>
+            </div>
+        </div>
+        <section class="karta">
+            <dl class="dane">
+                <div><dt>Kaznodzieja</dt><dd th:text="${nabozenstwo.kaznodzieja} ?: '—'">kto</dd></div>
+                <div><dt>Wieczerza Pańska</dt><dd th:text="${nabozenstwo.wieczerzaPanska} ? 'sprawowana' : 'bez Wieczerzy'">wieczerza</dd></div>
+                <div><dt>Stary Testament</dt><dd th:text="${nabozenstwo.czytanieStarego} ?: '—'">st</dd></div>
+                <div><dt>Psalm</dt><dd th:text="${nabozenstwo.psalm} ?: '—'">ps</dd></div>
+                <div><dt>Czytanie apostolskie</dt><dd th:text="${nabozenstwo.czytanieApostolskie} ?: '—'">ap</dd></div>
+                <div><dt>Ewangelia</dt><dd th:text="${nabozenstwo.ewangelia} ?: '—'">ew</dd></div>
+                <div><dt>Kazanie</dt><dd th:text="${nabozenstwo.tytulKazania} ?: '—'">kazanie</dd></div>
+                <div><dt>Werset</dt><dd th:text="${nabozenstwo.wersetKazania} ?: '—'">werset</dd></div>
+            </dl>
+            <p th:if="${nabozenstwo.uwagiLiturgiczne != null}" th:text="${nabozenstwo.uwagiLiturgiczne}">uwagi</p>
+        </section>
+        <section class="karta" th:if="${!nabozenstwo.piesni.isEmpty()}">
+            <h2>Pieśni</h2>
+            <table class="tabela">
+                <thead><tr><th>Moment</th><th>Numer</th><th>Tytuł</th></tr></thead>
+                <tbody>
+                <tr th:each="p : ${nabozenstwo.piesni}">
+                    <td th:text="${p.moment.etykieta}">moment</td>
+                    <td th:text="${p.numerSpiewnika} ?: '—'">nr</td>
+                    <td th:text="${p.tytul}">tytuł</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+</body>
+</html>

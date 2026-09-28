@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Porządek nabożeństwa')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony"><h1 th:text="${edycja} ? 'Edycja porządku' : 'Nowe nabożeństwo'">Nabożeństwo</h1></div>
+        <form class="karta formularz" th:object="${formularz}" method="post" th:action="${edycja} ? @{/nabozenstwa/{id}(id=${identyfikator})} : @{/nabozenstwa}">
+            <div class="siatka-formularza">
+                <label class="pole"><span>Data</span><input type="date" th:field="*{data}" required><small th:errors="*{data}"></small></label>
+                <label class="pole"><span>Godzina</span><input type="time" th:field="*{godzina}" required><small th:errors="*{godzina}"></small></label>
+                <label class="pole"><span>Czas (minuty)</span><input type="number" th:field="*{minuty}" min="20" max="240" required></label>
+                <label class="pole"><span>Rodzaj</span>
+                    <select th:field="*{rodzaj}">
+                        <option th:each="r : ${rodzaje}" th:value="${r}" th:text="${r.etykieta}">rodzaj</option>
+                    </select>
+                </label>
+                <label class="pole szeroki"><span>Niedziela lub święto roku kościelnego</span><input th:field="*{niedzielaRoku}" placeholder="np. 18. niedziela po Trójcy Świętej"></label>
+                <label class="pole"><span>Kaznodzieja</span><input th:field="*{kaznodzieja}"></label>
+                <label class="pole"><span>Wieczerza Pańska</span><input type="checkbox" th:field="*{wieczerzaPanska}"></label>
+                <label class="pole"><span>Czytanie ze Starego Testamentu</span><input th:field="*{czytanieStarego}" placeholder="np. Iz 55,6–11"></label>
+                <label class="pole"><span>Psalm</span><input th:field="*{psalm}" placeholder="np. Ps 23"></label>
+                <label class="pole"><span>Czytanie apostolskie</span><input th:field="*{czytanieApostolskie}" placeholder="np. Rz 8,14–17"></label>
+                <label class="pole"><span>Ewangelia</span><input th:field="*{ewangelia}" placeholder="np. J 3,16–21"></label>
+                <label class="pole"><span>Tytuł kazania</span><input th:field="*{tytulKazania}"></label>
+                <label class="pole"><span>Werset kazania</span><input th:field="*{wersetKazania}" placeholder="sigla, bez cytatu"></label>
+                <label class="pole szeroki"><span>Uwagi liturgiczne</span><textarea th:field="*{uwagiLiturgiczne}" rows="3"></textarea></label>
+            </div>
+            <h2>Pieśni</h2>
+            <p class="opis">Wpisz numer i tytuł ze śpiewnika. Treści pieśni nie przechowujemy.</p>
+            <div class="siatka-formularza" th:each="p, stan : *{piesni}">
+                <label class="pole"><span>Numer</span><input th:field="*{piesni[__${stan.index}__].numerSpiewnika}"></label>
+                <label class="pole szeroki"><span>Tytuł</span><input th:field="*{piesni[__${stan.index}__].tytul}"></label>
+                <label class="pole"><span>Moment</span>
+                    <select th:field="*{piesni[__${stan.index}__].moment}">
+                        <option th:each="m : ${momenty}" th:value="${m}" th:text="${m.etykieta}">moment</option>
+                    </select>
+                </label>
+            </div>
+            <div class="pasek-akcji">
+                <button class="btn podstawowy" type="submit">Zapisz</button>
+                <a class="btn drugi" th:href="@{/nabozenstwa}">Anuluj</a>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

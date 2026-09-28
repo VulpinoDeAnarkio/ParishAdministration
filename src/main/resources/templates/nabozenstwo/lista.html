@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nabożeństwa')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker">Liturgia</p>
+                <h1>Nabożeństwa</h1>
+            </div>
+            <a class="btn podstawowy" th:if="${mozeEdytowacKartoteke}" th:href="@{/nabozenstwa/nowe}">Zaplanuj nabożeństwo</a>
+        </div>
+        <section class="karta">
+            <table class="tabela">
+                <thead>
+                <tr><th>Termin</th><th>Rodzaj</th><th>Niedziela roku kościelnego</th><th>Kaznodzieja</th><th>Wieczerza</th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="n : ${nabozenstwa}">
+                    <td><a th:href="@{/nabozenstwa/{id}(id=${n.id})}" th:text="${#temporals.format(n.wydarzenie.poczatek, 'dd.MM.yyyy HH:mm')}">data</a></td>
+                    <td th:text="${n.rodzaj.etykieta}">rodzaj</td>
+                    <td th:text="${n.niedzielaRoku} ?: '—'">niedziela</td>
+                    <td th:text="${n.kaznodzieja} ?: '—'">kto</td>
+                    <td th:text="${n.wieczerzaPanska} ? 'tak' : 'nie'">wieczerza</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(nabozenstwa)}"><td colspan="5">Nie zaplanowano jeszcze nabożeństw.</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+</body>
+</html>
