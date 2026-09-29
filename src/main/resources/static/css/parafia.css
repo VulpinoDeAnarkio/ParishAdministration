@@ -270,8 +270,8 @@ tr:hover td { background: rgba(0, 255, 120, 0.06); }
     font-size: 0.78rem;
     white-space: nowrap;
 }
-.odznaka.CZLONEK, .odznaka.OSIAGNIETY, .odznaka.OBECNY, .odznaka.UKONCZONA { background: var(--zielen-miekkie); color: var(--zielen); }
-.odznaka.ZMARLY, .odznaka.WYSTAPIL, .odznaka.ANULOWANE, .odznaka.NIEOBECNY { background: rgba(255, 80, 110, 0.12); color: #ffb3c0; border-color: #ff5d7a; }
+.odznaka.CZLONEK, .odznaka.OSIAGNIETY, .odznaka.OBECNY, .odznaka.UKONCZONA, .odznaka.POTWIERDZONA { background: var(--zielen-miekkie); color: var(--zielen); }
+.odznaka.ZMARLY, .odznaka.WYSTAPIL, .odznaka.ANULOWANE, .odznaka.ANULOWANA, .odznaka.NIEOBECNY { background: rgba(255, 80, 110, 0.12); color: #ffb3c0; border-color: #ff5d7a; }
 .odznaka.KATECHUMEN, .odznaka.W_TOKU, .odznaka.OTWARTA { background: var(--info-miekkie); color: var(--info); }
 .odznaka.SYMPATYK, .odznaka.PRZENIESIONY, .odznaka.USPR { background: var(--ostrzezenie-miekkie); color: var(--ostrzezenie); }
 .pusta { text-align: center; padding: 2.2rem 1rem; }

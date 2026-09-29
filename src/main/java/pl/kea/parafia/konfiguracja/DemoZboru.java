@@ -29,6 +29,8 @@ import pl.kea.parafia.nabozenstwo.NabozenstwoService;
 import pl.kea.parafia.nabozenstwo.PiesnFormularz;
 import pl.kea.parafia.nabozenstwo.RodzajNabozenstwa;
 import pl.kea.parafia.obecnosc.ObecnoscService;
+import pl.kea.parafia.obiekt.ObiektService;
+import pl.kea.parafia.obiekt.RezerwacjaFormularz;
 import pl.kea.parafia.obecnosc.RodzajObecnosci;
 import pl.kea.parafia.ogloszenie.OgloszenieFormularz;
 import pl.kea.parafia.ogloszenie.OgloszenieService;
@@ -68,6 +70,7 @@ public class DemoZboru implements ApplicationRunner {
     private final SluzbaService sluzba;
     private final PostepService postep;
     private final OgloszenieService ogloszenia;
+    private final ObiektService obiektyParafii;
 
     public DemoZboru(
             OsobaRepository osobyRepo,
@@ -81,7 +84,8 @@ public class DemoZboru implements ApplicationRunner {
             DuszpasterstwoService duszpasterstwo,
             SluzbaService sluzba,
             PostepService postep,
-            OgloszenieService ogloszenia
+            OgloszenieService ogloszenia,
+            ObiektService obiektyParafii
     ) {
         this.osobyRepo = osobyRepo;
         this.osoby = osoby;
@@ -95,11 +99,15 @@ public class DemoZboru implements ApplicationRunner {
         this.sluzba = sluzba;
         this.postep = postep;
         this.ogloszenia = ogloszenia;
+        this.obiektyParafii = obiektyParafii;
     }
 
     @Override
     public void run(ApplicationArguments args) {
         if (osobyRepo.count() > 0) {
+            if (!obiektyParafii.saRezerwacje()) {
+                przykladoweRezerwacje(janBerger());
+            }
             return;
         }
         Gospodarstwo dom = gospodarstwa.utworz(new GospodarstwoFormularz(
@@ -160,11 +168,46 @@ public class DemoZboru implements ApplicationRunner {
         var sprawa = duszpasterstwo.zapiszSprawe(null, new SprawaFormularz(maria.getId(), "Rozmowa przed rocznicą ślubu", "Spotkanie na plebanii.", StatusSprawy.W_TOKU));
         duszpasterstwo.zapiszWizyte(new WizytaFormularz(sprawa.getId(), maria.getId(), LocalDate.now().minusDays(2), "Plebania", "Ustalono datę rocznicy.", LocalDate.now().plusDays(14)));
 
+        przykladoweRezerwacje(jan.getId());
+
         ogloszenia.zapisz(null, new OgloszenieFormularz(
                 "Nabożeństwo w niedzielę o 10:00",
                 "Zapraszamy na nabożeństwo główne z Wieczerzą Pańską. Szkółka niedzielna w salce.",
                 LocalDate.now().minusDays(1), null, true
         ));
+    }
+
+    private void przykladoweRezerwacje(Long janId) {
+        var pokoj = obiektyParafii.znajdzPoNazwie("Pokój 1");
+        obiektyParafii.zapiszRezerwacje(null, new RezerwacjaFormularz(
+                pokoj.getId(),
+                LocalDate.now().plusDays(12).atTime(15, 0),
+                LocalDate.now().plusDays(14).atTime(10, 0),
+                "Jan Berger",
+                janId,
+                "Nocleg rodziny",
+                2,
+                null
+        ));
+        var salka = obiektyParafii.znajdzPoNazwie("Salka parafialna");
+        obiektyParafii.zapiszRezerwacje(null, new RezerwacjaFormularz(
+                salka.getId(),
+                LocalDate.now().plusDays(3).atTime(18, 30),
+                LocalDate.now().plusDays(3).atTime(20, 0),
+                "Chór parafialny",
+                janId,
+                "Próba chóru",
+                12,
+                null
+        ));
+    }
+
+    private Long janBerger() {
+        return osoby.wszyscy().stream()
+                .filter(osoba -> "Jan".equals(osoba.getImie()) && "Berger".equals(osoba.getNazwisko()))
+                .map(Osoba::getId)
+                .findFirst()
+                .orElse(null);
     }
 
     private Osoba osoba(String imie, String nazwisko, Plec plec, LocalDate urodzenie, StatusCzlonkostwa status, RolaWRodzinie rola, boolean wieczerza, Long dom) {

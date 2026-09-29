@@ -13,5 +13,6 @@ public class PrzycinaniePol {
     public void przytnij(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.registerCustomEditor(Long.class, new CustomNumberEditor(Long.class, true));
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
     }
 }

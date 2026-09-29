@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Obiekty parafii')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <h1>Obiekty parafii</h1>
+                <p>Salki, hotel i pokoje gościnne. Rezerwacja budynku obejmuje też jego pokoje.</p>
+            </div>
+            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/obiekty/nowy}">Nowy obiekt</a>
+        </div>
+        <p class="zakladki">
+            <a th:href="@{/obiekty}" th:classappend="${wybranyRodzaj == null} ? 'aktywny'">Wszystkie</a>
+            <a th:each="r : ${rodzaje}" th:href="@{/obiekty(rodzaj=${r})}" th:classappend="${wybranyRodzaj == r} ? 'aktywny'" th:text="${r.etykieta}">rodzaj</a>
+        </p>
+        <section class="siatka-kart">
+            <article class="karta" th:each="obiekt : ${obiekty}">
+                <span class="odznaka" th:text="${obiekt.rodzaj.etykieta}">rodzaj</span>
+                <h2><a th:href="@{/obiekty/{id}(id=${obiekt.id})}" th:text="${obiekt.nazwaZRodzicem}">nazwa</a></h2>
+                <p th:text="${obiekt.pojemnosc != null ? obiekt.pojemnosc + ' os.' : 'Pojemność niepodana'}">pojemność</p>
+                <p class="uwaga" th:text="${obiekt.aktywny} ? 'Przyjmuje rezerwacje' : 'Wyłączony'">status</p>
+            </article>
+        </section>
+        <section class="karta pusta" th:if="${#lists.isEmpty(obiekty)}">
+            <h2>Brak obiektów</h2>
+            <p>Dodaj salkę, hotel albo pokój gościnny.</p>
+        </section>
+        <section class="karta">
+            <h2>Najbliższe rezerwacje</h2>
+            <div class="tabela-opakowanie">
+                <table>
+                    <thead><tr><th>Obiekt</th><th>Od</th><th>Do</th><th>Kto</th><th>Cel</th></tr></thead>
+                    <tbody>
+                    <tr th:each="r : ${rezerwacje}">
+                        <td><a th:href="@{/obiekty/{id}(id=${r.obiekt.id})}" th:text="${r.obiekt.nazwaZRodzicem}">obiekt</a></td>
+                        <td th:text="${#temporals.format(r.poczatek, 'dd.MM.yyyy HH:mm')}">od</td>
+                        <td th:text="${#temporals.format(r.koniec, 'dd.MM.yyyy HH:mm')}">do</td>
+                        <td th:text="${r.rezerwujacy}">kto</td>
+                        <td th:text="${r.cel != null ? r.cel : '—'}">cel</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p th:if="${#lists.isEmpty(rezerwacje)}">Nie ma potwierdzonych rezerwacji.</p>
+        </section>
+    </main>
+</div>
+</body>
+</html>

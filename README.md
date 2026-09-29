@@ -2,7 +2,7 @@
 
 Aplikacja biura parafialnego dla fikcyjnej Parafii Ewangelicko-Augsburskiej Zmiłowania Bożego w Poznaniu (Diecezja Pomorsko-Wielkopolska).
 
-Moduły: kartoteka i gospodarstwa, księgi chrztów, konfirmacji, ślubów, zgonów i przeniesień, grupy, kalendarz z rezerwacją sal, porządek nabożeństw, obecności, dyżury i zadania, finanse, poufne duszpasterstwo, cele parafii i nauka konfirmacyjna, ogłoszenia oraz raporty CSV.
+Moduły: kartoteka i gospodarstwa, księgi chrztów, konfirmacji, ślubów, zgonów i przeniesień, grupy, kalendarz, obiekty parafii (salki, hotel, pokoje gościnne i ich rezerwacje), porządek nabożeństw, obecności, dyżury i zadania, finanse, poufne duszpasterstwo, cele parafii i nauka konfirmacyjna, ogłoszenia oraz raporty CSV.
 
 Tablica ogłoszeń bez logowania: [http://localhost:8080/ogloszenia-publiczne](http://localhost:8080/ogloszenia-publiczne).
 

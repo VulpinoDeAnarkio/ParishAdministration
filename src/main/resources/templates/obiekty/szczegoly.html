@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${obiekt.nazwa})}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div th:replace="~{fragments/komunikaty :: komunikaty}"></div>
+        <div class="naglowek-strony">
+            <div>
+                <p class="kicker" th:text="${obiekt.rodzaj.etykieta}">rodzaj</p>
+                <h1 th:text="${obiekt.nazwa}">Obiekt</h1>
+                <p th:if="${obiekt.rodzic != null}">Część: <a th:href="@{/obiekty/{id}(id=${obiekt.rodzic.id})}" th:text="${obiekt.rodzic.nazwa}">budynek</a></p>
+                <p th:text="${obiekt.lokalizacja}">adres</p>
+            </div>
+            <a th:if="${mozeEdytowacKartoteke}" class="btn podstawowy" th:href="@{/obiekty/{id}/edycja(id=${obiekt.id})}">Edytuj</a>
+        </div>
+        <div class="dwie-kolumny">
+            <section class="karta">
+                <h2>Rezerwacje</h2>
+                <div class="tabela-opakowanie">
+                    <table>
+                        <thead><tr><th>Od</th><th>Do</th><th>Kto</th><th>Osób</th><th>Status</th><th></th></tr></thead>
+                        <tbody>
+                        <tr th:each="r : ${rezerwacje}">
+                            <td th:text="${#temporals.format(r.poczatek, 'dd.MM.yyyy HH:mm')}">od</td>
+                            <td th:text="${#temporals.format(r.koniec, 'dd.MM.yyyy HH:mm')}">do</td>
+                            <td>
+                                <span th:text="${r.rezerwujacy}">kto</span>
+                                <small th:if="${r.cel != null}" th:text="${r.cel}">cel</small>
+                            </td>
+                            <td th:text="${r.liczbaOsob != null ? r.liczbaOsob : '—'}">osób</td>
+                            <td><span class="odznaka" th:classappend="${r.status.name()}" th:text="${r.status.etykieta}">status</span></td>
+                            <td>
+                                <a th:if="${mozeEdytowacKartoteke}" th:href="@{/obiekty/rezerwacje/{id}/edycja(id=${r.id})}">Popraw</a>
+                                <form th:if="${mozeEdytowacKartoteke and r.status.name() == 'POTWIERDZONA'}" method="post" th:action="@{/obiekty/rezerwacje/{id}/anuluj(id=${r.id})}">
+                                    <button class="btn cichy" type="submit">Anuluj</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p th:if="${#lists.isEmpty(rezerwacje)}">Ten obiekt nie ma jeszcze rezerwacji.</p>
+                <h2 th:if="${!#lists.isEmpty(dzieci)}">W tym budynku</h2>
+                <ul class="lista-prosta" th:if="${!#lists.isEmpty(dzieci)}">
+                    <li th:each="dziecko : ${dzieci}">
+                        <a th:href="@{/obiekty/{id}(id=${dziecko.id})}" th:text="${dziecko.nazwa + ' · ' + dziecko.rodzaj.etykieta}">pokój</a>
+                    </li>
+                </ul>
+                <p th:if="${obiekt.opis != null}" th:text="${obiekt.opis}">opis</p>
+            </section>
+            <aside class="karta" th:if="${mozeEdytowacKartoteke and obiekt.aktywny}">
+                <h2>Nowa rezerwacja</h2>
+                <form th:action="@{/obiekty/{id}/rezerwacje(id=${obiekt.id})}" th:object="${rezerwacja}" method="post">
+                    <input type="hidden" th:field="*{obiektId}">
+                    <label class="pole"><span>Od</span><input type="datetime-local" th:field="*{poczatek}" required><small th:errors="*{poczatek}"></small></label>
+                    <label class="pole"><span>Do</span><input type="datetime-local" th:field="*{koniec}" required><small th:errors="*{koniec}"></small></label>
+                    <label class="pole"><span>Rezerwujący</span><input th:field="*{rezerwujacy}" required><small th:errors="*{rezerwujacy}"></small></label>
+                    <label class="pole"><span>Osoba z kartoteki</span>
+                        <select th:field="*{osobaId}">
+                            <option value="">Gość spoza kartoteki</option>
+                            <option th:each="o : ${osoby}" th:value="${o.id}" th:text="${o.nazwisko + ' ' + o.imie}">osoba</option>
+                        </select>
+                    </label>
+                    <label class="pole"><span>Cel</span><input th:field="*{cel}" placeholder="np. nocleg rodziny, próba chóru"></label>
+                    <label class="pole"><span>Liczba osób</span><input type="number" min="1" th:field="*{liczbaOsob}"><small th:errors="*{liczbaOsob}"></small></label>
+                    <label class="pole"><span>Uwagi</span><textarea th:field="*{uwagi}" rows="3"></textarea></label>
+                    <button class="btn podstawowy" type="submit">Zarezerwuj</button>
+                </form>
+            </aside>
+            <aside class="karta" th:if="${!obiekt.aktywny}">
+                <h2>Rezerwacje wyłączone</h2>
+                <p>Włącz obiekt w edycji, żeby znów przyjmował terminy.</p>
+            </aside>
+        </div>
+    </main>
+</div>
+</body>
+</html>

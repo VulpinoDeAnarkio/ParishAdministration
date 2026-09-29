@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import pl.kea.parafia.kalendarz.KalendarzService;
 import pl.kea.parafia.ksiega.KsiegaService;
+import pl.kea.parafia.obiekt.ObiektService;
 import pl.kea.parafia.ogloszenie.OgloszenieService;
 import pl.kea.parafia.osoba.OsobaService;
 import pl.kea.parafia.postep.PostepService;
@@ -20,6 +21,7 @@ public class WejscieController {
     private final OgloszenieService ogloszenia;
     private final PostepService postep;
     private final SluzbaService sluzba;
+    private final ObiektService obiekty;
 
     public WejscieController(
             OsobaService osoby,
@@ -27,7 +29,8 @@ public class WejscieController {
             KalendarzService kalendarz,
             OgloszenieService ogloszenia,
             PostepService postep,
-            SluzbaService sluzba
+            SluzbaService sluzba,
+            ObiektService obiekty
     ) {
         this.osoby = osoby;
         this.ksiegi = ksiegi;
@@ -35,6 +38,7 @@ public class WejscieController {
         this.ogloszenia = ogloszenia;
         this.postep = postep;
         this.sluzba = sluzba;
+        this.obiekty = obiekty;
     }
 
     @GetMapping("/login")
@@ -51,6 +55,7 @@ public class WejscieController {
         model.addAttribute("wydarzenia", kalendarz.nadchodzace());
         model.addAttribute("ogloszenia", ogloszenia.publiczne(LocalDate.now()));
         model.addAttribute("cele", postep.wyniki().stream().limit(3).toList());
+        model.addAttribute("rezerwacje", obiekty.nadchodzace());
         return "pulpit/index";
     }
 

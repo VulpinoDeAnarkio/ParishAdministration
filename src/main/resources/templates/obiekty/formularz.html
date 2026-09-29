@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Obiekt parafii')}"></head>
+<body>
+<div th:replace="~{fragments/chrome :: chrome(~{::main})}">
+    <main id="tresc" class="tresc">
+        <div class="naglowek-strony">
+            <h1 th:text="${edycja} ? 'Edycja obiektu' : 'Nowy obiekt'">Obiekt</h1>
+        </div>
+        <form class="karta formularz" th:object="${formularz}" method="post" th:action="${edycja} ? @{/obiekty/{id}(id=${identyfikator})} : @{/obiekty}">
+            <div class="siatka-formularza">
+                <label class="pole"><span>Nazwa</span><input th:field="*{nazwa}" required><small th:errors="*{nazwa}"></small></label>
+                <label class="pole"><span>Rodzaj</span>
+                    <select th:field="*{rodzaj}">
+                        <option th:each="r : ${rodzaje}" th:value="${r}" th:text="${r.etykieta}">rodzaj</option>
+                    </select>
+                </label>
+                <label class="pole"><span>Należy do</span>
+                    <select th:field="*{rodzicId}">
+                        <option value="">Samodzielny obiekt</option>
+                        <option th:each="kandydat : ${obiekty}" th:if="${identyfikator == null or kandydat.id != identyfikator}" th:value="${kandydat.id}" th:text="${kandydat.nazwaZRodzicem}">obiekt</option>
+                    </select>
+                </label>
+                <label class="pole"><span>Pojemność</span><input type="number" min="1" th:field="*{pojemnosc}"><small th:errors="*{pojemnosc}"></small></label>
+                <label class="pole szeroki"><span>Lokalizacja</span><input th:field="*{lokalizacja}"></label>
+                <label class="pole"><span>Przyjmuje rezerwacje</span><input type="checkbox" th:field="*{aktywny}"></label>
+                <label class="pole szeroki"><span>Opis</span><textarea th:field="*{opis}" rows="3"></textarea></label>
+            </div>
+            <div class="pasek-akcji">
+                <button class="btn podstawowy" type="submit">Zapisz</button>
+                <a class="btn drugi" th:href="@{/obiekty}">Anuluj</a>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+</html>

@@ -50,6 +50,19 @@
                 <a th:href="@{/ogloszenia-publiczne}">Tablica publiczna</a>
             </section>
         </div>
+        <section class="karta">
+            <div class="naglowek-strony">
+                <h2>Rezerwacje obiektów</h2>
+                <a th:href="@{/obiekty}">Salki i hotel</a>
+            </div>
+            <ul class="lista-prosta">
+                <li th:each="r : ${rezerwacje}">
+                    <a th:href="@{/obiekty/{id}(id=${r.obiekt.id})}"
+                       th:text="${#temporals.format(r.poczatek, 'dd.MM HH:mm') + ' · ' + r.obiekt.nazwaZRodzicem + ' · ' + r.rezerwujacy}">rezerwacja</a>
+                </li>
+                <li th:if="${#lists.isEmpty(rezerwacje)}">Brak potwierdzonych rezerwacji.</li>
+            </ul>
+        </section>
         <section class="karta" th:each="w : ${cele}">
             <div class="naglowek-strony">
                 <h2 th:text="${w.cel.nazwa}">Cel</h2>
