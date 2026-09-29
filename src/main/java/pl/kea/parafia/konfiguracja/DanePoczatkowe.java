@@ -13,7 +13,8 @@ import pl.kea.parafia.bezpieczenstwo.UzytkownikRepository;
 @ConditionalOnProperty(name = "parafia.demo", havingValue = "true")
 public class DanePoczatkowe implements ApplicationRunner {
 
-    public static final String HASLO_DEMO = "Lipowa#2026";
+    public static final String HASLO_DEMO = "poznan#2026";
+    private static final String POPRZEDNIE_HASLO_DEMO = "Lipowa#2026";
 
     private final UzytkownikRepository uzytkownicy;
     private final PasswordEncoder koder;
@@ -27,13 +28,23 @@ public class DanePoczatkowe implements ApplicationRunner {
     @Transactional
     public void run(org.springframework.boot.ApplicationArguments args) {
         if (uzytkownicy.count() > 0) {
+            przeniesHaslaZLipowej();
             return;
         }
-        utworz("admin@lipowa.parafia.pl", "Ewa", "Król", Rola.ADMIN);
-        utworz("proboszcz@lipowa.parafia.pl", "Marek", "Lis", Rola.PROBOSZCZ);
-        utworz("biuro@lipowa.parafia.pl", "Hanna", "Weber", Rola.SEKRETARIAT);
-        utworz("skarbnik@lipowa.parafia.pl", "Tomasz", "Berger", Rola.SKARBNIK);
-        utworz("duszpasterz@lipowa.parafia.pl", "Anna", "Maj", Rola.DUSZPASTERZ);
+        utworz("admin@poznan.parafia.pl", "Ewa", "Król", Rola.ADMIN);
+        utworz("proboszcz@poznan.parafia.pl", "Marek", "Lis", Rola.PROBOSZCZ);
+        utworz("biuro@poznan.parafia.pl", "Hanna", "Weber", Rola.SEKRETARIAT);
+        utworz("skarbnik@poznan.parafia.pl", "Tomasz", "Berger", Rola.SKARBNIK);
+        utworz("duszpasterz@poznan.parafia.pl", "Anna", "Maj", Rola.DUSZPASTERZ);
+    }
+
+    private void przeniesHaslaZLipowej() {
+        for (Uzytkownik konto : uzytkownicy.findAll()) {
+            if (koder.matches(POPRZEDNIE_HASLO_DEMO, konto.getHaslo())) {
+                konto.setHaslo(koder.encode(HASLO_DEMO));
+                uzytkownicy.save(konto);
+            }
+        }
     }
 
     private void utworz(String email, String imie, String nazwisko, Rola rola) {

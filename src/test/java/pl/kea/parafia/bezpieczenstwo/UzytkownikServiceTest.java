@@ -47,7 +47,7 @@ class UzytkownikServiceTest {
         mvc.perform(post("/uzytkownicy")
                         .param("imie", "Jan")
                         .param("nazwisko", "Organista")
-                        .param("email", "organista@lipowa.parafia.pl")
+                        .param("email", "organista@poznan.parafia.pl")
                         .param("haslo", "organy-123")
                         .param("rola", "SEKRETARIAT")
                         .param("aktywny", "true")
@@ -55,7 +55,7 @@ class UzytkownikServiceTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/uzytkownicy"));
 
-        Uzytkownik zapisany = repozytorium.findByEmailIgnoreCase("organista@lipowa.parafia.pl").orElseThrow();
+        Uzytkownik zapisany = repozytorium.findByEmailIgnoreCase("organista@poznan.parafia.pl").orElseThrow();
         assertThat(koder.matches("organy-123", zapisany.getHaslo())).isTrue();
         assertThat(zapisany.getRola()).isEqualTo(Rola.SEKRETARIAT);
     }
@@ -64,7 +64,7 @@ class UzytkownikServiceTest {
     @Transactional
     void nieMoznaWylaczycOstatniegoAdministratora() {
         Uzytkownik admin = repozytorium.save(new Uzytkownik(
-                "jedyny-admin@lipowa.parafia.pl",
+                "jedyny-admin@poznan.parafia.pl",
                 koder.encode("haslo-admina"),
                 "Jedyny",
                 "Admin",

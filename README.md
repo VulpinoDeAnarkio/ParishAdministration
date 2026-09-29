@@ -1,6 +1,6 @@
 # Kancelaria parafii ewangelicko-augsburskiej
 
-Aplikacja biura parafialnego dla fikcyjnej Parafii Ewangelicko-Augsburskiej Świętej Trójcy w Lipowej.
+Aplikacja biura parafialnego dla fikcyjnej Parafii Ewangelicko-Augsburskiej Zmiłowania Bożego w Poznaniu (Diecezja Pomorsko-Wielkopolska).
 
 Moduły: kartoteka i gospodarstwa, księgi chrztów, konfirmacji, ślubów, zgonów i przeniesień, grupy, kalendarz z rezerwacją sal, porządek nabożeństw, obecności, dyżury i zadania, finanse, poufne duszpasterstwo, cele parafii i nauka konfirmacyjna, ogłoszenia oraz raporty CSV.
 
@@ -16,15 +16,15 @@ Wymagana jest Java 21.
 
 Aplikacja startuje na [http://localhost:8080](http://localhost:8080). Baza robocza to plik H2 w katalogu `data/`.
 
-W trybie demonstracyjnym hasło wszystkich kont to `Lipowa#2026`.
+W trybie demonstracyjnym hasło wszystkich kont to `poznan#2026`.
 
 | E-mail | Rola |
 | --- | --- |
-| admin@lipowa.parafia.pl | Administrator |
-| proboszcz@lipowa.parafia.pl | Proboszcz |
-| biuro@lipowa.parafia.pl | Sekretariat |
-| skarbnik@lipowa.parafia.pl | Skarbnik |
-| duszpasterz@lipowa.parafia.pl | Duszpasterz |
+| admin@poznan.parafia.pl | Administrator |
+| proboszcz@poznan.parafia.pl | Proboszcz |
+| biuro@poznan.parafia.pl | Sekretariat |
+| skarbnik@poznan.parafia.pl | Skarbnik |
+| duszpasterz@poznan.parafia.pl | Duszpasterz |
 
 ## Testy
 

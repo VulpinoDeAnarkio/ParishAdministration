@@ -33,9 +33,9 @@ public class ProfilParafii extends EncjaAudytowana {
 
     public static ProfilParafii domyslny() {
         ProfilParafii profil = new ProfilParafii();
-        profil.nazwa = "Parafia Ewangelicko-Augsburska Świętej Trójcy w Lipowej";
-        profil.diecezja = "Diecezja warszawska";
-        profil.miejscowosc = "Lipowa";
+        profil.nazwa = "Parafia Ewangelicko-Augsburska Zmiłowania Bożego w Poznaniu";
+        profil.diecezja = "Diecezja Pomorsko-Wielkopolska";
+        profil.miejscowosc = "Poznań";
         profil.opis = "Parafia fikcyjna na potrzeby kancelarii.";
         return profil;
     }

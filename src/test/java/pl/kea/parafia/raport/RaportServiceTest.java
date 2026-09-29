@@ -24,11 +24,11 @@ class RaportServiceTest {
     @Test
     void kartotekaTrafiaDoCsvZeSrednikiem() {
         osoby.utworz(new OsobaFormularz(
-                "Ewa", null, "Polna", null, Plec.KOBIETA, null, null, "ewa@lipowa.test", null, null, null, null,
+                "Ewa", null, "Polna", null, Plec.KOBIETA, null, null, "ewa@poznan.test", null, null, null, null,
                 StatusCzlonkostwa.CZLONEK, null, null, null, false, false, null, null
         ));
         String csv = raporty.osobyCsv();
         assertThat(csv).contains("imię;nazwisko;status");
-        assertThat(csv).contains("Ewa;Polna;Członek parafii;ewa@lipowa.test;");
+        assertThat(csv).contains("Ewa;Polna;Członek parafii;ewa@poznan.test;");
     }
 }

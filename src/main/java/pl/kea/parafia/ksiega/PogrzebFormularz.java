@@ -17,7 +17,7 @@ public record PogrzebFormularz(
         @Size(max = 1000) String uwagi
 ) {
     public static PogrzebFormularz pusty(Long osobaId, String numer) {
-        return new PogrzebFormularz(osobaId, LocalDate.now(), LocalDate.now(), "Cmentarz w Lipowej", "Cmentarz parafialny", "", numer, "");
+        return new PogrzebFormularz(osobaId, LocalDate.now(), LocalDate.now(), "Cmentarz w Poznaniu", "Cmentarz parafialny", "", numer, "");
     }
 
     public static PogrzebFormularz z(Pogrzeb pogrzeb) {

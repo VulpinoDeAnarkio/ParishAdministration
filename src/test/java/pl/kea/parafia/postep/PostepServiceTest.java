@@ -57,7 +57,7 @@ class PostepServiceTest {
                 .isInstanceOf(RegulaParafiiException.class);
 
         ksiegi.zapiszChrzest(null, new ChrzestFormularz(
-                dziecko.getId(), LocalDate.of(2014, 6, 1), "Lipowa", "ks. Jan", null, null, null, null, "CH-POSTEP-1", null
+                dziecko.getId(), LocalDate.of(2014, 6, 1), "poznan", "ks. Jan", null, null, null, null, "CH-POSTEP-1", null
         ));
         postep.dodajUczestnika(rocznik.getId(), dziecko.getId());
         assertThat(postep.droga(dziecko.getId())).contains(EtapDrogi.CHRZEST, EtapDrogi.NAUKA);

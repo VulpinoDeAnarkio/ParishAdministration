@@ -17,7 +17,7 @@ public record KonfirmacjaFormularz(
         @Size(max = 1000) String uwagi
 ) {
     public static KonfirmacjaFormularz pusty(Long osobaId, String numer) {
-        return new KonfirmacjaFormularz(osobaId, LocalDate.now(), "Kościół Świętej Trójcy w Lipowej", "", "", "", numer, "");
+        return new KonfirmacjaFormularz(osobaId, LocalDate.now(), "Kościół Zmiłowania Bożego w Poznaniu", "", "", "", numer, "");
     }
 
     public static KonfirmacjaFormularz z(Konfirmacja wpis) {

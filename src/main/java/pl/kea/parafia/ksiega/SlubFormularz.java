@@ -18,7 +18,7 @@ public record SlubFormularz(
         @Size(max = 1000) String uwagi
 ) {
     public static SlubFormularz pusty(String numer) {
-        return new SlubFormularz(null, null, LocalDate.now(), "Kościół Świętej Trójcy w Lipowej", "", RodzajSlubu.SLUB, "", "", numer, "");
+        return new SlubFormularz(null, null, LocalDate.now(), "Kościół Zmiłowania Bożego w Poznaniu", "", RodzajSlubu.SLUB, "", "", numer, "");
     }
 
     public static SlubFormularz z(Slub slub) {

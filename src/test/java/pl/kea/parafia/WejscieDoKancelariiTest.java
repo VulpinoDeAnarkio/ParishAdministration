@@ -34,9 +34,9 @@ class WejscieDoKancelariiTest {
 
     @BeforeEach
     void kontoTestowe() {
-        if (uzytkownicy.findByEmailIgnoreCase("test@lipowa.parafia.pl").isEmpty()) {
+        if (uzytkownicy.findByEmailIgnoreCase("test@poznan.parafia.pl").isEmpty()) {
             uzytkownicy.save(new Uzytkownik(
-                    "test@lipowa.parafia.pl",
+                    "test@poznan.parafia.pl",
                     koder.encode("tajne-haslo"),
                     "Test",
                     "Kancelarii",
@@ -56,13 +56,14 @@ class WejscieDoKancelariiTest {
     void stronaLogowaniaPokazujeNazweParafii() throws Exception {
         mvc.perform(get("/login"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(Matchers.containsString("Parafia Ewangelicko-Augsburska Świętej Trójcy w Lipowej")));
+                .andExpect(content().string(Matchers.containsString("Parafia Ewangelicko-Augsburska Zmiłowania Bożego w Poznaniu")))
+                .andExpect(content().string(Matchers.containsString("Diecezja Pomorsko-Wielkopolska")));
     }
 
     @Test
     void poprawneHasloWpuszczaNaPulpit() throws Exception {
         mvc.perform(post("/login")
-                        .param("username", "test@lipowa.parafia.pl")
+                        .param("username", "test@poznan.parafia.pl")
                         .param("password", "tajne-haslo")
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())

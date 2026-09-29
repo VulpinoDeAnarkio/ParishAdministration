@@ -103,7 +103,7 @@ public class DemoZboru implements ApplicationRunner {
             return;
         }
         Gospodarstwo dom = gospodarstwa.utworz(new GospodarstwoFormularz(
-                "Berger", "Lipowa 12", "05-100", "Lipowa", "500100200", "Dom przy kościele"
+                "Berger", "ul. Reformacji 4", "61-100", "Poznań", "500100200", "Dom przy kościele"
         ));
         Osoba jan = osoba("Jan", "Berger", Plec.MEZCZYZNA, LocalDate.of(1978, 4, 12), StatusCzlonkostwa.CZLONEK, RolaWRodzinie.GLOWA, true, dom.getId());
         Osoba maria = osoba("Maria", "Berger", Plec.KOBIETA, LocalDate.of(1981, 9, 3), StatusCzlonkostwa.CZLONEK, RolaWRodzinie.MALZONEK, true, dom.getId());
@@ -113,11 +113,11 @@ public class DemoZboru implements ApplicationRunner {
         ksiegi.zapiszChrzest(null, chrzest(maria.getId(), LocalDate.of(1981, 10, 4), "CH-1981-4", "Piotr Nowak", "Ewa Nowak"));
         ksiegi.zapiszChrzest(null, chrzest(adam.getId(), LocalDate.of(2011, 4, 10), "CH-2011-2", "Jan Berger", "Maria Berger"));
         ksiegi.zapiszKonfirmacje(null, new KonfirmacjaFormularz(
-                jan.getId(), LocalDate.of(1993, 5, 16), "Kościół Świętej Trójcy w Lipowej", "ks. Marek Lis",
+                jan.getId(), LocalDate.of(1993, 5, 16), "Kościół Zmiłowania Bożego w Poznaniu", "ks. Marek Lis",
                 "1993", "J 3,16", "K-1993-1", null
         ));
         ksiegi.zapiszKonfirmacje(null, new KonfirmacjaFormularz(
-                maria.getId(), LocalDate.of(1996, 5, 19), "Kościół Świętej Trójcy w Lipowej", "ks. Marek Lis",
+                maria.getId(), LocalDate.of(1996, 5, 19), "Kościół Zmiłowania Bożego w Poznaniu", "ks. Marek Lis",
                 "1996", "Ps 23,1", "K-1996-1", null
         ));
 
@@ -169,12 +169,12 @@ public class DemoZboru implements ApplicationRunner {
 
     private Osoba osoba(String imie, String nazwisko, Plec plec, LocalDate urodzenie, StatusCzlonkostwa status, RolaWRodzinie rola, boolean wieczerza, Long dom) {
         return osoby.utworz(new OsobaFormularz(
-                imie, null, nazwisko, null, plec, urodzenie, "Lipowa", null, null, "Lipowa 12", "05-100", "Lipowa",
+                imie, null, nazwisko, null, plec, urodzenie, "Poznań", null, null, "ul. Reformacji 4", "61-100", "Poznań",
                 status, rola, LocalDate.of(2010, 1, 1), null, true, wieczerza, null, dom
         ));
     }
 
     private ChrzestFormularz chrzest(Long osobaId, LocalDate data, String numer, String rodzic1, String rodzic2) {
-        return new ChrzestFormularz(osobaId, data, "Kościół Świętej Trójcy w Lipowej", "ks. Marek Lis", rodzic1, rodzic2, null, null, numer, null);
+        return new ChrzestFormularz(osobaId, data, "Kościół Zmiłowania Bożego w Poznaniu", "ks. Marek Lis", rodzic1, rodzic2, null, null, numer, null);
     }
 }

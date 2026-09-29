@@ -3,7 +3,8 @@
 <head th:replace="~{fragments/head :: head('Tablica ogłoszeń')}"></head>
 <body class="publiczna">
 <main class="tresc tablica">
-    <p class="kicker">Parafia Ewangelicko-Augsburska Świętej Trójcy w Lipowej</p>
+    <p class="kicker" th:text="${profil.nazwa}">Parafia</p>
+    <p class="diecezja" th:text="${profil.diecezja}">Diecezja</p>
     <h1>Tablica ogłoszeń</h1>
     <article class="karta" th:each="o : ${ogloszenia}">
         <h2 th:text="${o.tytul}">Tytuł</h2>

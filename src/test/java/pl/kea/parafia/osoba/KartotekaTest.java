@@ -40,7 +40,7 @@ class KartotekaTest {
     void sekretariatZakladaDomIOsobe() throws Exception {
         mvc.perform(post("/gospodarstwa")
                         .param("nazwa", "Dom Nowaków")
-                        .param("miejscowosc", "Lipowa")
+                        .param("miejscowosc", "poznan")
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("/gospodarstwa/*"));

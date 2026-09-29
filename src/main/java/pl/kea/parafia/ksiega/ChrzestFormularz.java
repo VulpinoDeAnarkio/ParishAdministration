@@ -19,7 +19,7 @@ public record ChrzestFormularz(
         @Size(max = 1000) String uwagi
 ) {
     public static ChrzestFormularz pusty(Long osobaId, String numer) {
-        return new ChrzestFormularz(osobaId, LocalDate.now(), "Kościół Świętej Trójcy w Lipowej", "", "", "", "", "", numer, "");
+        return new ChrzestFormularz(osobaId, LocalDate.now(), "Kościół Zmiłowania Bożego w Poznaniu", "", "", "", "", "", numer, "");
     }
 
     public static ChrzestFormularz z(Chrzest chrzest) {
